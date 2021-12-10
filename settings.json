@@ -1,0 +1,214 @@
+{
+  "version": "rc1",
+  "defaulttheme": "default",
+  "website": {
+    "port": 80,
+    "secret": "Heliactyl Secret"
+  },
+  "pterodactyl": {
+    "domain": "panel domain",
+    "key": "panel api key"
+  },
+  "database": "sqlite://database.sqlite",
+  "api": {
+    "client": {
+       "api": {
+         "enabled": false,
+         "code": "Heliactyl N API Token"
+       },
+       "j4r": {
+         "enabled": true,
+         "servers": ["example", "example"],
+         "every": {
+             "cpu": 0,
+             "ram": 0,
+             "disk": 0,
+             "servers": 0
+         },
+         "ads": [
+             {
+             	"name": "Example server",
+                "invite": "https://discord.gg/Tz2bkhk5Pn"
+         	 },
+             {
+                 "name": "Example server",
+                 "invite": "https://discord.gg/vSm7FGUXRf"
+         	 },
+             {
+             }
+         ]
+       },
+       "bot": {
+         "token": "discord token here",
+         "joinguild": {
+           "_comment": "The Discord bot must be in these servers and have invite permissions.",
+           "enabled": true,
+           "guildid": ["example"]
+        }
+      },
+      "passwordgenerator": {
+        "signup": true,
+        "length": 8
+      },
+      "allow": {
+        "newusers": true,
+        "regen": true,
+        "server": {
+          "create": true,
+          "modify": true,
+          "delete": true
+        },
+        "overresourcessuspend": false,
+        "renewsuspendsystem": {
+          "_comment": "This feature requires a restart in order to work. Also, this requires every server to start suspended, or else this feature would not work for some servers.",
+          "enabled": false,
+          "time": 3600
+        }
+      },
+      "oauth2": {
+        "_comment": "Go to https://discord.dev/ and create an application to set these up.",
+        "id": "id",
+        "secret": "secret",
+        "link": "link",
+        "callbackpath": "/callback",
+        "prompt": true,
+
+        "ip": {
+          "trust x-forwarded-for": true,
+          "block": [],
+          "duplicate check": false
+        }
+      },
+      "ratelimits": {
+        "/callback": 2,
+        "/create": 1,
+        "/delete": 1,
+        "/modify": 1,
+        "/updateinfo": 1,
+        "/setplan": 2,
+        "/admin": 1,
+        "/regen": 1,
+        "/renew": 1,
+        "/api/userinfo": 1
+      },
+      "packages": {
+        "default": "default",
+        "list": {
+          "default": {
+            "ram": 1024,
+            "disk": 1024,
+            "cpu": 100,
+            "servers": 1
+          }
+        }
+      },
+      "locations": {
+        "2": {
+          "name": "Default Location",
+
+          "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
+          "package": null
+        },
+        "1": {
+          "name": "Select a location",
+
+          "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
+          "package": ["add a name for a new package here"]
+        }
+      },
+      "eggs": {
+       "paper": {
+          "display": "Paper",
+          "minimum": {
+            "ram": 1024,
+            "disk": 1024,
+            "cpu": 100
+          },
+          "maximum": {
+            "ram": null,
+            "disk": null,
+            "cpu": null
+          },
+          "info": {
+            "egg": 3,
+            "docker_image": "ghcr.io/pterodactyl/yolks:java_17",
+            "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -jar {{SERVER_JARFILE}}",
+            "environment": {
+              "SERVER_JARFILE": "server.jar",
+              "BUILD_NUMBER": "latest"
+            },
+            "feature_limits": {
+              "databases": 4,
+              "backups": 4
+            }
+          }
+        },
+        "bungeecord": {
+          "display": "BungeeCord",
+          "minimum": {
+            "ram": 512,
+            "disk": 512,
+            "cpu": 75
+          },
+          "maximum": {
+            "ram": null,
+            "disk": null,
+            "cpu": null
+          },
+          "info": {
+            "egg": 1,
+            "docker_image": "ghcr.io/pterodactyl/yolks:java_17",
+            "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+            "environment": {
+              "SERVER_JARFILE": "bungeecord.jar",
+              "BUNGEE_VERSION": "latest"
+            },
+            "feature_limits": {
+              "databases": 4,
+              "backups": 4
+            }
+          }
+        }
+      },
+      "coins": {
+        "enabled": true,
+        "store": {
+          "_comment": "The cost and per is not intended to used with 0. This is not intended to sell resources for coins. Make sure coins are enabled too, or else there can be errors.",
+          "enabled": true,
+          "ram": {
+            "cost": 500,
+            "per": 1024
+          },
+          "disk": {
+            "cost": 50,
+            "per": 1024
+          },
+          "cpu": {
+            "cost": 250,
+            "per": 100
+          },
+          "servers": {
+            "cost": 100,
+            "per": 1
+          }
+        }
+      }
+    },
+    "arcio": {	
+      "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",	
+      "enabled": true,	
+      "widgetid": "Arc Widget ID",	
+      "afk page": {	
+        "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",	
+        "_comment2": "Make sure coins are enabled if you choose to enable this option!",	
+        "enabled": true,	
+        "_comment3": "If you change the path, you need to restart for it to take full effect.",	
+        "path": "coins",	
+        "_comment4": "This afk page will give the users [coins variable] coins every [every variable] seconds.",	
+        "every": 60,	
+        "_comment5": "The coins variable is meant to not be under 1. There may be bugs if the coins variable is less than 1.",	
+        "coins": 0.1
+      }	
+    }
+  }
+}
