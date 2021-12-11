@@ -1,5 +1,5 @@
 {
-  "version": "rc2",
+  "version": "11.0-rc1",
   "defaulttheme": "default",
   "website": {
     "port": 80,
@@ -14,7 +14,7 @@
     "client": {
        "api": {
          "enabled": false,
-         "code": "Heliactyl N API Token"
+         "code": "Heliactyl 11 API Token"
        },
        "j4r": {
          "enabled": true,
@@ -207,7 +207,7 @@
         "_comment4": "This afk page will give the users [coins variable] coins every [every variable] seconds.",	
         "every": 60,	
         "_comment5": "The coins variable is meant to not be under 1. There may be bugs if the coins variable is less than 1.",	
-        "coins": 0.1
+        "coins": 1
       }	
     }
   }
