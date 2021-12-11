@@ -6,6 +6,7 @@ module.exports.load = async function(app, db) {
         let renewalservers = {};
         
         const indexjs = require("../index.js");
+        const arciotext = (require("./arcio.js")).text;
         const fetch = require('node-fetch');
         const fs = require('fs');
 

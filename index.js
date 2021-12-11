@@ -23,9 +23,10 @@ const defaultthemesettings = {
 
 module.exports.renderdataeval =
   `(async () => {
+   let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
 	const JavaScriptObfuscator = require('javascript-obfuscator');
 
-    let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
+ 
     let renderdata = {
       req: req,
       settings: newsettings,
@@ -45,13 +46,22 @@ module.exports.renderdataeval =
       }),
       packages: req.session.userinfo ? newsettings.api.client.packages.list[await db.get("package-" + req.session.userinfo.id) ? await db.get("package-" + req.session.userinfo.id) : newsettings.api.client.packages.default] : null,
       coins: newsettings.api.client.coins.enabled == true ? (req.session.userinfo ? (await db.get("coins-" + req.session.userinfo.id) ? await db.get("coins-" + req.session.userinfo.id) : 0) : null) : null,
-	  every: newsettings.api.arcio["afk page"].every,
-	  earn: newsettings.api.arcio["afk page"].coins,
       pterodactyl: req.session.pterodactyl,
       theme: theme.name,
       extra: theme.settings.variables,
 	  db: db
     };
+    if (newsettings.api.arcio.enabled == true && req.session.arcsessiontoken) {
+      renderdata.arcioafktext = JavaScriptObfuscator.obfuscate(\`
+        let token = "\${req.session.arcsessiontoken}";
+        let everywhat = \${newsettings.api.arcio["afk page"].every};
+        let gaincoins = \${newsettings.api.arcio["afk page"].coins};
+        let arciopath = "\${newsettings.api.arcio["afk page"].path.replace(/\\\\/g, "\\\\\\\\").replace(/"/g, "\\\\\\"")}";
+
+        \${arciotext}
+      \`);
+    };
+
     return renderdata;
   })();`;
 
@@ -135,6 +145,8 @@ apifiles.forEach(file => {
 app.all("*", async (req, res) => {
   if (req.session.pterodactyl) if (req.session.pterodactyl.id !== await db.get("users-" + req.session.userinfo.id)) return res.redirect("/login?prompt=none");
   let theme = indexjs.get(req);
+let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
+if (newsettings.api.arcio.enabled == true) if (theme.settings.generateafktoken.includes(req._parsedUrl.pathname)) req.session.arcsessiontoken = Math.random().toString(36).substring(2, 15);
   if (theme.settings.mustbeloggedin.includes(req._parsedUrl.pathname)) if (!req.session.userinfo || !req.session.pterodactyl) return res.redirect("/login" + (req._parsedUrl.pathname.slice(0, 1) == "/" ? "?redirect=" + req._parsedUrl.pathname.slice(1) : ""));
   if (theme.settings.mustbeadmin.includes(req._parsedUrl.pathname)) {
     ejs.renderFile(

@@ -1,5 +1,6 @@
 const indexjs = require("../index.js");
 const adminjs = require("./admin.js");
+const arciotext = (require("./arcio.js")).text;
 const fs = require("fs");
 const ejs = require("ejs");
 const fetch = require('node-fetch');

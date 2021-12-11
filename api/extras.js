@@ -2,6 +2,7 @@ const settings = require("../settings.json");
 const fs = require('fs');
 
 const indexjs = require("../index.js");
+const arciotext = (require("./arcio.js")).text;
 const fetch = require('node-fetch');
 
 module.exports.load = async function(app, db) {

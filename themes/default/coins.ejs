@@ -1,3 +1,4 @@
+<% if (settings.api.arcio["afk page"].enabled == true) { %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -204,36 +205,19 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="row">
-              <center style="margin: auto; margin-top: 20%;">
-                <h1 style="font-size: 40px;">AFK to earn coins!</h1>
-                <p style="font-size: 25px;">Every <% if (settings.api.arcio["afk page"].every !== 1) { %><%= settings.api.arcio["afk page"].every %> seconds<% } else { %>second<% } %>, you will get <%= settings.api.arcio["afk page"].coins == 1 ? "a" : settings.api.arcio["afk page"].coins %> coin<%= settings.api.arcio["afk page"].coins == 1 ? "" : "s" %>.</p>
-                <p style="font-size: 25px;">You will gain coins again in <span id="timer"><%= settings.api.arcio["afk page"].every %></span> seconds.</p>
-                <p style="font-size: 25px;">You have gained <span id="gainedcoins">0</span> coins currently.</p>
-                <p style="font-size: 25px;">To check your balance, go to the store tab.</p>
-              </center>
-              <script>
-                setInterval(async function() {
-                  const response = await fetch('https://srydencloud.com/api/updateCoins', {
-    				method: 'GET',
-                    headers: {
-      					'Content-Type': 'application/json'
-    				}
-  				  });
-                  let json = await response.json();
-                  let coins = document.getElementById("gainedcoins")
-                  let timer = document.getElementById("timer")
-                  coins.textContent = Math.floor((Number(coins.textContent) + 0.1) * 100) / 100;
-                  timer.textContent = 60;
-                }, 60000)
-                 
-                setInterval(async function() {
-                  let timer = document.getElementById("timer")
-                  let count = Number(timer.textContent);
-                  if (isNaN(count)) count = 0;
-                  if (count == 0) return timer.textContent = 60;
-                  timer.textContent = count - 1;
-                }, 1000)
-              </script>
+              <div class="col-md-12 grid-margin stretch-card">
+                                  <div class="card">
+									<div class="card-header">
+										<div class="card-title">Earn Coins</div>
+									</div>
+									<div class="card-body">
+								<center><p>Every <% if (settings.api.arcio["afk page"].every !== 1) { %><%= settings.api.arcio["afk page"].every %> seconds<% } else { %>second<% } %>, you will get <%= settings.api.arcio["afk page"].coins == 1 ? "a" : settings.api.arcio["afk page"].coins %> coin<%= settings.api.arcio["afk page"].coins == 1 ? "" : "s" %>.</p></center>
+							<center><p>You will gain coins again in <span id="arciotimer"><%= settings.api.arcio["afk page"].every %></span> seconds.</p></center>
+							       <center><p>You have gained <span id="arciogainedcoins">0</span> coins currently</p></center>
+								<script>
+							<%- arcioafktext %>
+					</script>
+				</div>
             </div>
           </div>
           <!-- content-wrapper ends -->
@@ -264,3 +248,4 @@
     <!-- End custom js for this page -->
   </body>
 </html>
+<% } else { %><%- include('404.ejs') %><% } %>

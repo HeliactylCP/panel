@@ -1,1 +1,3 @@
-// Extra bot code here if needed
+module.exports.load = async function(app, db) {
+    // works
+}
