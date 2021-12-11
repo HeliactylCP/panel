@@ -1,9 +1,9 @@
 {
-  "name": "dashactyl",
-  "version": "0.3.1",
+  "name": "Heliactyl",
+  "version": "rs2",
   "description": "The best Pterodactyl Panel dashboard addition.",
   "main": "index.js",
-  "author": "Two",
+  "author": "Heliactyl-tm",
   "dependencies": {
     "@keyv/mongo": "^1.2.1",
     "@keyv/mysql": "^1.1.5",
