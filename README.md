@@ -15,7 +15,7 @@ Discord Server: https://dc.heliactyl.xyz
 # How to install
 
 1. Upload the file above onto a Pterodactyl nodejs server (download the egg from parkervcp eggs)
-2. Unarchive the file
+2. Unarchive the file and set the server to use NodeJS 12
 3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
 4. Start the server (ignore the 2 strange errors that might come up)
 
