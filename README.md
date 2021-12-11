@@ -16,10 +16,8 @@ Discord Server: https://dc.heliactyl.xyz
 
 1. Upload the file above onto a Pterodactyl nodejs server (download the egg from parkervcp eggs)
 2. Unarchive the file
-3. Go to startup and add this to additional node modules box:
-`@keyv/mongo @keyv/mysql @keyv/postgres @keyv/redis @keyv/sqlite chalk discord.js ejs express express-session express-ws javascript-obfuscator keyv node-cache node-fetch nodemon warn`
-4. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
-5. Start the server (ignore the 2 strange errors that might come up)
+3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
+4. Start the server (ignore the 2 strange errors that might come up)
 
 # Configure proxy (for example client.sryden.com)
 
