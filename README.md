@@ -1,4 +1,4 @@
-# Heliactyl N
+# Heliactyl (v11)
 
 Tired of dashactyl? Why not try Heliactyl
 Features on top of dashactyl:
