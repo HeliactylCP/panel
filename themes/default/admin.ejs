@@ -230,121 +230,133 @@
             <div class="page-header">
               <h3 class="page-title"> Admin </h3>
             </div>
-            <div class="row">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Change user's package.</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="IDPlan">Discord User ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter user ID" id="IDPlan">
-                      </div>
-                      <div class="form-group">
-                        <label for="InputPackage">Package:</label><BR>
-                        <select class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;" id="package">
-                          <% for (let [name, value] of Object.entries(settings.api.client.packages.list)) { %>
-                            <option value="<%= name %>"><%= name %> (RAM: <%= value.ram %>MB, Disk: <%= value.disk %>MB, CPU: <%= value.cpu %>%, Servers: <%= value.servers %>)</option>
-                          <% } %>
-                        </select>
-                      </div>
-                      <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitPlan()">Apply Changes</a>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Set user's resources.</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="IDSet">Discord User ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter user ID" id="IDSet">
-                      </div>
-                      <div class="form-group">
-                        <label for="SetCPU">CPU:</label><BR>
-                        <input type="number" class="form-control" placeholder="80" id="SetCPU">
-                      </div>
-                      <div class="form-group">
-                        <label for="SetRAM">RAM:</label><BR>
-                        <input type="number" class="form-control" placeholder="4096" id="SetRAM">
-                      </div>
-                      <div class="form-group">
-                        <label for="SetDisk">Disk:</label><BR>
-                        <input type="number" class="form-control" placeholder="81920" id="SetDisk">
-                      </div>
-                      <div class="form-group">
-                        <label for="SetServers">Servers:</label><BR>
-                        <input type="number" class="form-control" placeholder="0" id="SetServers">
-                      </div>
-                      <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitSet()">Apply Changes</a>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Add user's resources.</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="IDAdd">Discord User ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter user ID" id="IDAdd">
-                      </div>
-                      <div class="form-group">
-                        <label for="AddCPU">CPU:</label><BR>
-                        <input type="number" class="form-control" placeholder="80" id="AddCPU">
-                      </div>
-                      <div class="form-group">
-                        <label for="AddRAM">RAM:</label><BR>
-                        <input type="number" class="form-control" placeholder="4096" id="AddRAM">
-                      </div>
-                      <div class="form-group">
-                        <label for="AddDisk">Disk:</label><BR>
-                        <input type="number" class="form-control" placeholder="81920" id="AddDisk">
-                      </div>
-                      <div class="form-group">
-                        <label for="AddServers">Servers:</label><BR>
-                        <input type="number" class="form-control" placeholder="0" id="AddServers">
-                      </div>
-                      <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitAdd()">Apply Changes</a>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Remove user's resources.</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="IDRemove">Discord User ID:</label>
-                        <input type="number" class="form-control" placeholder="Enter user ID" id="IDRemove">
-                      </div>
-                      <div class="form-group">
-                        <label for="RemoveCPU">CPU:</label><BR>
-                        <input type="number" class="form-control" placeholder="80" id="RemoveCPU">
-                      </div>
-                      <div class="form-group">
-                        <label for="RemoveRAM">RAM:</label><BR>
-                        <input type="number" class="form-control" placeholder="4096" id="RemoveRAM">
-                      </div>
-                      <div class="form-group">
-                        <label for="RemoveDisk">Disk:</label><BR>
-                        <input type="number" class="form-control" placeholder="81920" id="RemoveDisk">
-                      </div>
-                      <div class="form-group">
-                        <label for="RemoveServers">Servers:</label><BR>
-                        <input type="number" class="form-control" placeholder="0" id="RemoveServers">
-                      </div>
-                      <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitRemove()">Apply Changes</a>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+         <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Heliactyl Version</div>
+                                </div>
+                                <div class="card-body">
+                                    <center><p id="latestversion"><span style="margin-left: 5%;">Fetching...</span></p></center>
+                                    <script>
+                                        fetch("https://heliactyl.github.io/Heliactyl/")
+                                            .then(res => Promise.resolve(res.json()).then(ver => {
+                                                let currentver = "<%= settings.version.replace(/"/g, `\\\\"`) %>";
+                                                if (ver.version == currentver) {
+                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">You are running Heliactyl version <code>${currentver}</code>. Your dashboard is up-to-date!</span>`;
+												} else {
+                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">Your dashboard is <b>not up-to-date!</b> The latest version is <code>${ver.version}</code> and you are currently running version <code><%= settings.version %></code>.</span>`;
+                                                };
+                                            }));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row" id="proBanner">
+                            <div class="col-12">
+                          </div>
+                        </div>  
+                        <div class="row">
+                          <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                              <div class="card-body">
+                                <h4 class="card-title">Change someone's package.</h4>
+                                <p>Discord User ID: <input class="form-control" id="id" placeholder="0000000000000000"></p>
+                                <p>Package: <select class="form-control" id="package">
+                                    <option value="">Default Plan (Currently: <%= settings.api.client.packages.default %>)</option>
+                                    <% for (let [name, value] of Object.entries(settings.api.client.packages.list)) { %>
+                                        <option value="<%= name %>"><%= name %> (RAM: <%= value.ram %>MB, Disk: <%= value.disk %>MB, CPU: <%= value.cpu %>%, Servers: <%= value.servers %>)</option>
+                                    <% } %>
+                                </select></p>
+                                <button onclick="submitForm()" class="btn btn-primary">Change</button>
+                                <script>
+                                    async function submitForm() {
+                                        let id = encodeURIComponent(document.getElementById("id").value);
+                                        let packagename = encodeURIComponent(document.getElementById("package").value);
+                                        window.location.href = "/setplan?id=" + id + "&package=" + packagename
+                                    }
+                                </script>
+                              </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card col-md-12 grid-margin stretch-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Change someone's extra resources.</h4>
+                                    <form action="/setresources">
+                                        <label for="id">Discord User ID:</label>
+                                        <input class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="ram">RAM:</label>
+                                        <input class="form-control" name="ram" type="number"><br><br>
+                                        <label for="disk">Disk:</label>
+                                        <input class="form-control" name="disk" type="number"><br><br>
+                                        <label for="cpu">CPU:</label>
+                                        <input class="form-control" name="cpu" type="number"><br><br>
+                                        <label for="servers">Servers:</label>
+                                        <input class="form-control" name="servers" type="number"><br><br>
+                                        <button type="submit" class="btn btn-primary">Change</button>
+                                    </form>
+                                </div>
+                              </div>
+                              <div class="card col-md-12 grid-margin stretch-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Set coins.</h4>
+                                    <form action="/setcoins">
+                                        <label for="id">Discord User ID:</label>
+                                        <input class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input class="form-control" name="coins" type="number"><br><br>
+                                        <button type="submit" class="btn btn-primary">Set</button>
+                                    </form>
+                                </div>
+                              </div>
+                              <div class="card col-md-12 grid-margin stretch-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Add coins.</h4>
+                                    <form action="/addcoins">
+                                        <label for="id">Discord User ID:</label>
+                                        <input class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input class="form-control" name="coins" type="number"><br><br>
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                    </form>
+                                </div>
+                              </div> 
+							<div class="card col-md-12 grid-margin stretch-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Remove Account</h4>
+									<p>This only removes the account from the database, and does not delete the account.<br>This feature has not been tested with the renewal feature.</p>
+                                    <form action="/remove_account">
+                                        <label for="id">Discord ID:</label>
+                                        <input class="form-control" name="id"><br><br>
+                                        <button type="submit" class="btn btn-primary">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+							<div class="card col-md-12 grid-margin stretch-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">User Information</h4>
+									<label for="id">Discord ID:</label>
+									<input class="form-control" name="id" id="userinfoid"><br><br>
+									<button type="submit" class="btn btn-primary" onclick="getUserInfo()">Get</button>
+									<script>
+										async function getUserInfo() {
+											let userinfo = await fetch("/userinfo?id=" + document.getElementById("userinfoid").value);
+											alert(await userinfo.text())
+										}
+									</script>
+                                </div>
+                            </div>
+							
+					</div>
+				</div>
+			</div>
           </div>
+		</div>
+	  </div>
+    </body>
+  </html>
           <!-- content-wrapper ends -->
         </div>
         <!-- main-panel ends -->
