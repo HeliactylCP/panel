@@ -114,10 +114,16 @@
       },
       "locations": {
         "1": {
-          "name": "Location Name",
+          "name": "name of Location",
 
           "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
           "package": null
+        },
+        "2": {
+          "name": "name of Location",
+
+          "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
+          "package": ["add a name for a new package here"]
         }
       },
       "eggs": {
