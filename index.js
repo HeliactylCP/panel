@@ -13,10 +13,12 @@ const fs = require("fs");
 const fetch = require('node-fetch');
 const chalk = require("chalk");
 const arciotext = require("./api/arcio.js").text;
+console.log(chalk.green("[Heliactyl] Files loaded..."));
 
 // Load settings.
 
 const settings = require("./settings.json");
+console.log(chalk.green("[Heliactyl] Settings loaded..."));
 
 const defaultthemesettings = {
   index: "index.ejs",
@@ -88,6 +90,7 @@ module.exports.db = db;
 const express = require("express");
 const app = express();
 const expressWs = require('express-ws')(app);
+console.log(chalk.green("[Heliactyl] Pages loaded..."));
 
 // Load express addons.
 
@@ -111,13 +114,16 @@ app.use(express.json({
 }));
 
 const listener = app.listen(settings.website.port, function() {
+  console.log(chalk.green("[Heliactyl] Checking for updates..."));
+  // no update system yet, soontm
+  console.log(chalk.green("[Heliactyl] Finishing & deploying Heliactyl..."));
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Port: " + listener.address().port + "."));
   console.log(chalk.green("Release: 13.0"));
   console.log(chalk.green("Codename: Sajama 13.0"));
   console.log(chalk.green("Release date: 31/12/2021 17:02 GMT"));
   console.log(chalk.green("----------------------------------------------------"));
-  console.log(chalk.green("Thanks for using Heliactyl!));
+  console.log(chalk.green("Thanks for using Heliactyl!"));
   console.log(chalk.green("----------------------------------------------------"));
 });
 
