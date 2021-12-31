@@ -1,4 +1,4 @@
-# Heliactyl (v11)
+# Heliactyl Client Area | v13.0
 
 Tired of dashactyl? Why not try Heliactyl
 Features on top of dashactyl:
@@ -6,7 +6,7 @@ Features on top of dashactyl:
 - Anti Discord Ratelimit
 - Gift Resources
 - Improved API
-- Better Default Theme
+- Neutron UI Design
 
 # Support
 
