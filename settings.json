@@ -1,20 +1,24 @@
 {
-  "version": "11.0-rc1",
+  "version": "13.0",
   "defaulttheme": "default",
   "website": {
     "port": 80,
-    "secret": "Heliactyl Secret"
+    "secret": "Example Secret"
   },
   "pterodactyl": {
-    "domain": "panel domain",
-    "key": "panel api key"
+    "domain": "Pterodactyl URL",
+    "note": "Don't put a / in the domain, only put for example https://panel.heliactyl.xyz or server link wont work",
+    "key": "Pterodactyl API Key"
+  },
+  "limits": {
+    "note": "Unsupported, go to /api/store.js and edit the values there"
   },
   "database": "sqlite://database.sqlite",
   "api": {
     "client": {
        "api": {
          "enabled": false,
-         "code": "Heliactyl 11 API Token"
+         "code": "Example API Code"
        },
        "j4r": {
          "enabled": true,
@@ -33,32 +37,21 @@
              {
                  "name": "Example server",
                  "invite": "https://discord.gg/vSm7FGUXRf"
-         	 },
-             {
-             }
+         	 }
          ]
        },
        "bot": {
-         "token": "discord token here",
+         "token": "Discord Bot Token",
          "joinguild": {
            "_comment": "The Discord bot must be in these servers and have invite permissions.",
            "enabled": true,
            "guildid": ["example"]
         }
       },
-       "webhook": {
-         "_comment": "URL of the webhook to send messages to.",
-         "webhook_url": "",
-         "auditlogs": {
-           "_comment": "This feature allows you to log actions, and get an overview of a users actions (only works if done with dashactyl, not ptero)",
-           "enabled": false,
-           "_comment2": "The types of notifications disabled. Values: ADMIN, LOGIN, SERVER, COUPONREDEEM",
-           "disabled": []
-        }
-      },
       "passwordgenerator": {
         "signup": true,
-        "length": 8
+        "note": "Use this to disable signups",
+        "length": 16
       },
       "allow": {
         "newusers": true,
@@ -114,13 +107,13 @@
       },
       "locations": {
         "1": {
-          "name": "name of Location",
+          "name": "Example Location 1",
 
           "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
           "package": null
         },
         "2": {
-          "name": "name of Location",
+          "name": "Example Location 2",
 
           "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
           "package": ["add a name for a new package here"]
