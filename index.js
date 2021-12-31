@@ -104,8 +104,14 @@ app.use(express.json({
 }));
 
 const listener = app.listen(settings.website.port, function() {
-  console.log(chalk.green("Heliactyl successfully deployed on port " + listener.address().port + "."));
-  console.log(chalk.green("You are running Heliactyl N release candidate 1!"));
+  console.log(chalk.green("----------------------------------------------------"));
+  console.log(chalk.green("Port: " + listener.address().port + "."));
+  console.log(chalk.green("Release: 13.0"));
+  console.log(chalk.green("Codename: Sajama 13.0"));
+  console.log(chalk.green("Release date: 31/12/2021 17:02 GMT"));
+  console.log(chalk.green("----------------------------------------------------"));
+  console.log(chalk.green("Thanks for using Heliactyl!));
+  console.log(chalk.green("----------------------------------------------------"));
 });
 
 var cache = false;
