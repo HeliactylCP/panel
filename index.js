@@ -1,3 +1,10 @@
+//
+// Heliactyl 13, Codename Sajama
+// 
+//  * Copyright HalexNodes 2021 - 2022
+//  * Please read the "License" file
+//
+
 "use strict";
 
 // Load packages.
