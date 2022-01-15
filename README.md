@@ -6,7 +6,7 @@ Features on top of dashactyl:
 - Anti Discord Ratelimit
 - Gift Resources
 - Improved API
-- Neutron UI Design
+- Corona Admin Theme
 
 # Support
 
