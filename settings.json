@@ -1,8 +1,10 @@
 {
-  "version": "13.0",
+  "version": "11.1.0",
   "defaulttheme": "default",
+  "note": "To make a custom theme for Heliactyl, create a folder inside /themes/ and change the value above",
   "website": {
     "port": 80,
+    "warning": "To run Heliactyl on a domain, you need to setup a reverse proxy, the guide is on our GitHub",
     "secret": "Example Secret"
   },
   "pterodactyl": {
@@ -24,9 +26,9 @@
          "enabled": true,
          "servers": ["example", "example"],
          "every": {
-             "cpu": 0,
-             "ram": 0,
-             "disk": 0,
+             "cpu": 10,
+             "ram": 512,
+             "disk": 512,
              "servers": 0
          },
          "ads": [
@@ -116,12 +118,12 @@
           "name": "Example Location 2",
 
           "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
-          "package": ["add a name for a new package here"]
+          "package": null
         }
       },
       "eggs": {
        "paper": {
-          "display": "Paper",
+          "display": "Minecraft Java",
           "minimum": {
             "ram": 1024,
             "disk": 1024,
@@ -147,7 +149,7 @@
           }
         },
         "bungeecord": {
-          "display": "BungeeCord",
+          "display": "Minecraft BungeeCord",
           "minimum": {
             "ram": 512,
             "disk": 512,
@@ -179,16 +181,16 @@
           "_comment": "The cost and per is not intended to used with 0. This is not intended to sell resources for coins. Make sure coins are enabled too, or else there can be errors.",
           "enabled": true,
           "ram": {
-            "cost": 500,
-            "per": 1024
+            "cost": 100,
+            "per": 1
           },
           "disk": {
-            "cost": 50,
-            "per": 1024
+            "cost": 100,
+            "per": 1
           },
           "cpu": {
-            "cost": 250,
-            "per": 100
+            "cost": 100,
+            "per": 1
           },
           "servers": {
             "cost": 100,
