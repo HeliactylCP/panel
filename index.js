@@ -1,5 +1,5 @@
 //
-// Heliactyl 13, Codename Sajama
+// Heliactyl 11, Codename Kanjut
 // 
 //  * Copyright HalexNodes 2021 - 2022
 //  * Please read the "License" file
@@ -119,11 +119,9 @@ const listener = app.listen(settings.website.port, function() {
   console.log(chalk.green("[Heliactyl] Finishing & deploying Heliactyl..."));
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Port: " + listener.address().port + "."));
-  console.log(chalk.green("Release: 13.0"));
-  console.log(chalk.green("Codename: Sajama 13.0"));
-  console.log(chalk.green("Release date: 31/12/2021 17:02 GMT"));
+  console.log(chalk.green("Release: 11.0"));
   console.log(chalk.green("----------------------------------------------------"));
-  console.log(chalk.green("Thanks for using Heliactyl!"));
+  console.log(chalk.green("Ready to upgrade to the latest Heliactyl 14? Read our GitHub"));
   console.log(chalk.green("----------------------------------------------------"));
 });
 
