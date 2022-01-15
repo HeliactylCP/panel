@@ -1,7 +1,9 @@
-# Heliactyl 11
+# Heliactyl 11 • The best Pterodactyl client area
 
-Tired of dashactyl? Why not try Heliactyl
-Features on top of dashactyl:
+Making a free or paid host and need a way for users to sign up, earn coins, manage servers? Try out Heliactyl
+To get started, scroll down and follow the guide
+
+Our features:
 - Join for Resources
 - Anti Discord Ratelimit
 - Gift Resources
@@ -14,6 +16,7 @@ Discord Server: https://dc.heliactyl.xyz
 
 # How to install
 
+Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 1. Upload the file above onto a Pterodactyl NodeJS server [Download the egg from Parkervcp's GitHub Repository](https://github.com/parkervcp/eggs/tree/master/bots/discord/discord.js)
 2. Unarchive the file and set the server to use NodeJS 12
 3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
