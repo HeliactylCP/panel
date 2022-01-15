@@ -37,6 +37,20 @@
             <% } %>
             <div class="page-header">
               <h3 class="page-title"> Admin </h3>
+              <p id="latestversion"><span>Fetching...</span></p>
+                                    <script>
+                                        fetch("https://client.halexnodes.net/heliactyl")
+                                            .then(res => Promise.resolve(res.json()).then(ver => {
+                                                let currentver = "<%= settings.version.replace(/"/g, `\\\\"`) %>";
+                                                if (ver.version == currentver) {
+                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">You are running Heliactyl version <code style="color: #1f57b8" >${currentver}</code>. Heliactyl is up-to-date!</span>`;
+												} else if (ver.prerelease == currentver) {
+                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">You are running Heliactyl version <code style="color: #1f57b8">${currentver}</code>. Heliactyl is up-to-date!</span>`;
+                                                } else {
+                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">Heliactyl is <b>not up-to-date!</b> The latest version is <codestyle="color: #1f57b8" >${ver.version}</code> (or <codestyle="color: #1f57b8" >${ver.prerelease}</code> for pre-releases) and you are currently running version <codestyle="color: #1f57b8" ><%= settings.version %></code>.</span>`;
+                                                };
+                                            }));
+                                    </script>
             </div>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
