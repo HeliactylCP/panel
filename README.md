@@ -1,4 +1,4 @@
-# Heliactyl Client Area | v13.0
+# Heliactyl Client Area | 11 Legacy
 
 Tired of dashactyl? Why not try Heliactyl
 Features on top of dashactyl:
