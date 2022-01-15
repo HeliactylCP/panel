@@ -21,7 +21,7 @@ Discord Server: https://dc.heliactyl.xyz
 
 # Configure reverse proxy
 
-1. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS's Ip address. (Example: dash.witchly.host 192.168.0.1)
+1. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS IP address. (Example: dashboard.domain.com 192.168.0.1)
 2. Run `apt install nginx && apt install certbot` on the vps
 3. Run `ufw allow 80` and `ufw allow 443` on the vps
 4. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
@@ -36,7 +36,7 @@ return 301 https://$host$request_uri;
 }
 server {
 listen 443;
-server_name <DOMAIN> ;
+server_name <DOMAIN>;
 ssl_certificate /etc/letsencrypt/live/<DOMAIN>/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/<DOMAIN>/privkey.pem;
 ssl on;
