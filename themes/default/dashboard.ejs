@@ -37,7 +37,7 @@
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Information</h4>
+                    <h4 class="card-title">Your Servers</h4>
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
@@ -52,7 +52,7 @@
                         <tbody>
                             <% if (pterodactyl.relationships.servers.data.length == 0) { %>
                               <tr>
-                              <td> You do not own any servers! Why not create one? </td>
+                              <td> No servers found. </td>
                               </tr>
                             <% } else { %>
                               <% for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) { %>
