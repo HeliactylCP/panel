@@ -30,18 +30,29 @@
         "failedpurchasecpu": "/store",	
         "purchaseservers": "/store",	
         "failedpurchaseservers": "/store",
-        "arcioerror": "/dashboard?err=arcio"
+        "arcioerror": "/dashboard?err=arcio",
+        "missingorinvalidcouponcode": "/redeem",
+        "successfullyredeemedcoupon": "/redeem",
+        "couponcreationfailed": "/admin",
+        "couponcreationsuccess": "/admin",
+        "couponrevokefailed": "/admin",
+        "couponrevokesuccess": "/admin",
+        "removeaccountfailed": "/admin",
+        "removeaccountsuccess": "/admin"
     },
     "pages": {
         "dashboard": "dashboard.ejs",
         "servers/new": "create.ejs",
         "servers/edit": "edit.ejs",
         "admin": "admin.ejs",
+        "redeem": "redeem.ejs",
         "settings": "settings.ejs",
         "gift": "gift.ejs",
         "j4r": "j4r.ejs",
         "coins": "coins.ejs",
-        "store": "store.ejs"
+        "store": "store.ejs",
+        "privacy-policy": "privacy-policy.ejs",
+        "terms-of-service": "terms-of-service.ejs"
     },
     "mustbeloggedin": [
         "/dashboard",
