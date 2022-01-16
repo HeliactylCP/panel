@@ -178,18 +178,19 @@
           <!-- partial -->
           <div class="main-panel">
             <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Earn Coins </h3>
+            </div>
               <div class="row">
                 <div class="col-md-12 grid-margin stretch-card">
                                     <div class="card">
-                    <div class="card-header">
-                      <div class="card-title">Earn Coins</div>
-                    </div>
                     <div class="card-body">
-                  <center>
-                                  <p> By staying on this page you help us keep this free hosting up and running! </p>
-                                  <p>Every <% if (settings.api.arcio["afk page"].every !== 1) { %><%= settings.api.arcio["afk page"].every %> seconds<% } else { %>second<% } %>, you will get <%= settings.api.arcio["afk page"].coins == 1 ? "a" : settings.api.arcio["afk page"].coins %> coin<%= settings.api.arcio["afk page"].coins == 1 ? "" : "s" %>.</p></center>
-                <center><p>You will gain coins again in <span id="arciotimer"><%= settings.api.arcio["afk page"].every %></span> seconds.</p></center>
-                       <center><p>You have gained <span id="arciogainedcoins">0</span> coins currently</p></center>
+                                  <p> By being on this page, you are supporting the service stay up & running while also earning coins </p>
+                                  <p>Every <% if (settings.api.arcio["afk page"].every !== 1) { %><%= settings.api.arcio["afk page"].every %> seconds<% } else { %>second<% } %>, you will get <%= settings.api.arcio["afk page"].coins == 1 ? "a" : settings.api.arcio["afk page"].coins %> coin<%= settings.api.arcio["afk page"].coins == 1 ? "" : "s" %>.</p>
+                <p>You will gain coins again in <span id="arciotimer"><%= settings.api.arcio["afk page"].every %></span> seconds</p>
+                       <p>You have gained <span id="arciogainedcoins">0</span> coins this AFK session</p>
+<br>
+<p>Earning Status: <br><button type="button" class="btn btn-success btn-rounded btn-icon"><i class="mdi mdi-check"></i></button>
                   <script>
                 <%- arcioafktext %>
             </script>
