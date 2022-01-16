@@ -27,10 +27,10 @@ Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 1. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS IP address. (Example: dashboard.domain.com 192.168.0.1)
 2. Run `apt install nginx && apt install certbot` on the vps
 3. Run `ufw allow 80` and `ufw allow 443` on the vps
-4. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
-5. Paste the configuration at the bottom of this and replace <IP> with the IP of the pterodactyl server including the port and <domain> with the domain you want your dashboard to be hosted on.
-6. Run `certbot certonly -d <DOMAIN>` then do 1 and put your email
-7. Run `systemctl restart nginx` and try open your domain
+4. Run `certbot certonly -d <Your Heliactyl Domain>` then do 1 and put your email
+5. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
+6. Paste the configuration at the bottom of this and replace with the IP of the pterodactyl server including the port and with the domain you want your dashboard to be hosted on.
+7. Run `systemctl restart nginx` and try open your domain.
 ```
 server {
 listen 80;
