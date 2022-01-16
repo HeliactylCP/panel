@@ -1,5 +1,7 @@
-# Heliactyl 11 • The best Pterodactyl client area
 
+![Heliactyl](https://cdn.discordapp.com/attachments/931948216461721621/932287426842468382/Copy_of_Copy_of_Fgffgg_20.png)
+
+# Heliactyl 11 • The best Pterodactyl client area
 Making a free or paid host and need a way for users to sign up, earn coins, manage servers? Try out Heliactyl.
 To get started, scroll down and follow the guide
 
