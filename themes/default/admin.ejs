@@ -18,6 +18,14 @@
                   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                   <% if (req.query.err == "MISSINGID") { %>
                       You have not provided the Discord user ID.
+				    <% } else if (req.query.err == "CREATECOUPONINVALIDCHARACTERS") { %>
+					One of the characters you entered in coupon creation was invalid, please try again.
+				    <% } else if (req.query.err == "REVOKECOUPONCANNOTFINDCODE") { %>
+					One of the characters you entered in coupon revoke was invalid, please try again.
+				    <% } else if (req.query.err == "CREATECOUPONEMPTY") { %>
+					While creating your coupon you did not specify to give any resources or coins.
+				    <% } else if (req.query.err == "CREATECOUPONLESSTHANONE") { %>
+					While creating your coupon you tried to give less then one in RAM, DISK, CPU and/or coins.
                   <% } else if (req.query.err == "INVALIDID") { %>
                       You have provided a Discord user ID that does not exist, or has not signed up on the dashboard.
                   <% } else if (req.query.err == "MISSINGVARIABLES") { %>
@@ -35,22 +43,40 @@
                 </div>
               <% } %>
             <% } %>
+				    <% if (req.query.code) { %>
+					<div class="alert" style="background-color: #00d415;">
+					You have created a coupon code with the name of: <%= req.query.code %>
+					</div>
+				    <% } %>
             <div class="page-header">
               <h3 class="page-title"> Admin </h3>
+            </div>
+            <div class="row">
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Heliactyl Version</h4>
+                    <form class="forms-sample">
+                      <div class="form-group">
               <p id="latestversion"><span>Fetching...</span></p>
                                     <script>
                                         fetch("https://heliactyl.github.io/Heliactyl-11/")
                                             .then(res => Promise.resolve(res.json()).then(ver => {
                                                 let currentver = "<%= settings.version.replace(/"/g, `\\\\"`) %>";
                                                 if (ver.version == currentver) {
-                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">You are running Heliactyl version <code style="color: #1f57b8" >${currentver}</code>. Heliactyl is up-to-date!</span>`;
-												} else if (ver.prerelease == currentver) {
-                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">You are running Heliactyl version <code style="color: #1f57b8">${currentver}</code>. Heliactyl is up-to-date!</span>`;
+                                                    document.getElementById("latestversion").innerHTML = `<span>You are running Heliactyl version <code style="color: #009425" >${currentver}</code>. Heliactyl is up-to-date!</span>`;
+                                                } else if (ver.prerelease == currentver) {
+                                                    document.getElementById("latestversion").innerHTML = `<span>You are running Heliactyl version <code style="color: #009425">${currentver}</code>. Heliactyl is up-to-date!</span>`;
                                                 } else {
-                                                    document.getElementById("latestversion").innerHTML = `<span style="margin-left: 5%;">Heliactyl is <b>not up-to-date!</b> The latest version is <codestyle="color: #1f57b8" >${ver.version}</code> (or <codestyle="color: #1f57b8" >${ver.prerelease}</code> for pre-releases) and you are currently running version <codestyle="color: #1f57b8" ><%= settings.version %></code>.</span>`;
+                                                    document.getElementById("latestversion").innerHTML = `<span>Heliactyl is <b>not up-to-date!</b> The latest version is <codestyle="color: #009425" >${ver.version}</code> (or <codestyle="color: #009425" >${ver.prerelease}</code> for pre-releases) and you are currently running version <codestyle="color: #009425" ><%= settings.version %></code>.</span>`;
                                                 };
                                             }));
                                     </script>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             </div>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
@@ -168,25 +194,62 @@
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Add user's coins</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                         Coming in Heliactyl v11.1.3 (:
-                      </div>
-                    </form>
+                    <h4 class="card-title">Create coupon</h4>
+                                    <form action="/create_coupon">
+                                        <label for="code">Code:</label>
+                                        <input class="form-control" name="code" placeholder="Put nothing here to generate a random code"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input class="form-control" name="coins" type="number"><br><br>
+                                        <label for="ram">RAM:</label>
+                                        <input class="form-control" name="ram" type="number"><br><br>
+                                        <label for="disk">Disk:</label>
+                                        <input class="form-control" name="disk" type="number"><br><br>
+                                        <label for="cpu">CPU:</label>
+                                        <input class="form-control" name="cpu" type="number"><br><br>
+                                        <label for="servers">Servers:</label>
+                                        <input class="form-control" name="servers" type="number"><br><br>
+                                        <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Complete</button>
+                                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Revoke coupon</h4>
+                                   <form action="/revoke_coupon">
+                                        <label for="code">Code:</label>
+                                        <input class="form-control" name="code"><br><br>
+                                        <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Complete</button>
+                                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Set user's coins</h4>
+                                    <form action="/setcoins">
+                                        <label for="id">Discord ID:</label>
+                                        <input class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input class="form-control" name="coins" type="number"><br><br>
+                                        <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Set</button>
+                                    </form>
                   </div>
                 </div>
               </div>
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Remove user's coins</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                         Coming in Heliactyl v11.1.3 (:
-                      </div>
-                    </form>
-                  </div>
+                    <h4 class="card-title">Add user's coins</h4>
+                                    <form action="/addcoins">
+                                        <label for="id">Discord ID:</label>
+                                        <input class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input class="form-control" name="coins" type="number"><br><br>
+                                        <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Set</button>
+                                    </form>
                 </div>
               </div>
             </div>
