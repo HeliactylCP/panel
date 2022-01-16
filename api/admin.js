@@ -351,6 +351,221 @@ module.exports.load = async function(app, db) {
             return res.redirect(successredirect + "?err=none");
         }
     });
+
+    app.get("/create_coupon", async (req, res) => {
+        let theme = indexjs.get(req);
+
+        if (!req.session.pterodactyl) return four0four(req, res, theme);
+        
+        let cacheaccount = await fetch(
+            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
+            {
+            method: "get",
+            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
+            }
+        );
+        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
+        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
+
+        req.session.pterodactyl = cacheaccountinfo.attributes;
+        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
+
+        let code = req.query.code ? req.query.code.slice(0, 200) : Math.random().toString(36).substring(2, 15);
+
+        if (!code.match(/^[a-z0-9]+$/i)) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONINVALIDCHARACTERS");
+
+        let coins = req.query.coins || 0;
+        let ram = req.query.ram || 0;
+        let disk = req.query.disk || 0;
+        let cpu = req.query.cpu || 0;
+        let servers = req.query.servers || 0;
+
+        coins = parseFloat(coins);
+        ram = parseFloat(ram);
+        disk = parseFloat(disk);
+        cpu = parseFloat(cpu);
+        servers = parseFloat(servers);
+
+        if (coins < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
+        if (ram < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
+        if (disk < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
+        if (cpu < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
+        if (servers < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
+
+        if (!coins && !ram && !disk && !cpu && !servers) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONEMPTY");
+
+        await db.set("coupon-" + code, {
+            coins: coins,
+            ram: ram,
+            disk: disk,
+            cpu: cpu,
+            servers: servers
+        });
+
+        res.redirect(theme.settings.redirect.couponcreationsuccess + "?code=" + code)
+
+        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
+
+        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
+            let username = cacheaccountinfo.attributes.username;
+            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
+            let params = JSON.stringify({
+                embeds: [
+                    {
+                        title: "Created Coupon",
+                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}\n\n**Coins:** ${coins} coin${coins == 1 ? "": "s"}\n**RAM:** ${ram}MB\n**Disk:** ${disk}MB\n**CPU:** ${cpu}%\n**Servers:** ${servers} server${servers == 1 ? "": "s"}`,
+                        color: hexToDecimal("#ffff00")
+                    }
+                ]
+            })
+            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: params
+            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
+        }
+    });
+
+    app.get("/revoke_coupon", async (req, res) => {
+        let theme = indexjs.get(req);
+
+        if (!req.session.pterodactyl) return four0four(req, res, theme);
+        
+        let cacheaccount = await fetch(
+            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
+            {
+            method: "get",
+            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
+            }
+        );
+        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
+        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
+
+        req.session.pterodactyl = cacheaccountinfo.attributes;
+        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
+
+        let code = req.query.code;
+
+        if (!code.match(/^[a-z0-9]+$/i)) return res.redirect(theme.settings.redirect.couponrevokefailed + "?err=REVOKECOUPONCANNOTFINDCODE");
+
+        if (!(await db.get("coupon-" + code))) return res.redirect(theme.settings.redirect.couponrevokefailed + "?err=REVOKECOUPONCANNOTFINDCODE");
+
+        await db.delete("coupon-" + code);
+
+        res.redirect(theme.settings.redirect.couponrevokesuccess + "?revokedcode=true");
+        
+        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
+
+        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
+            let username = cacheaccountinfo.attributes.username;
+            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
+            let params = JSON.stringify({
+                embeds: [
+                    {
+                        title: "Revoked Coupon",
+                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}`,
+                        color: hexToDecimal("#ffff00")
+                    }
+                ]
+            })
+            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: params
+            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
+        }
+    });
+
+    app.get("/remove_account", async (req, res) => {
+        let theme = indexjs.get(req);
+
+        if (!req.session.pterodactyl) return four0four(req, res, theme);
+        
+        let cacheaccount = await fetch(
+            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
+            {
+                method: "get",
+                headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
+            }
+        );
+        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
+        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
+
+        req.session.pterodactyl = cacheaccountinfo.attributes;
+        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
+
+        // This doesn't delete the account and doesn't touch the renewal system.
+
+        if (!req.query.id) return res.redirect(theme.settings.redirect.removeaccountfailed + "?err=REMOVEACCOUNTMISSINGID");
+
+        let discordid = req.query.id;
+        let pteroid = await db.get("users-" + discordid);
+
+        // Remove IP.
+
+        let selected_ip = await db.get("ip-" + discordid);
+
+        if (selected_ip) {
+        let allips = await db.get("ips") || [];
+        allips = allips.filter(ip => ip !== selected_ip);
+
+        if (allips.length == 0) {
+            await db.delete("ips");
+        } else {
+            await db.set("ips", allips);
+        }
+
+        await db.delete("ip-" + discordid);
+        }
+
+        // Remove user.
+
+        let userids = await db.get("users") || [];
+        userids = userids.filter(user => user !== pteroid);
+
+        if (userids.length == 0) {
+        await db.delete("users");
+        } else {
+        await db.set("users", userids);
+        }
+
+        await db.delete("users-" + discordid);
+
+        // Remove coins/resources.
+
+        await db.delete("coins-" + discordid);
+        await db.delete("extra-" + discordid);
+        await db.delete("package-" + discordid);
+
+        res.redirect(theme.settings.redirect.removeaccountsuccess + "?success=REMOVEACCOUNT");
+
+        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
+
+        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
+            let username = cacheaccountinfo.attributes.username;
+            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
+            let params = JSON.stringify({
+                embeds: [
+                    {
+                        title: "Removed Account",
+                        description: `**__User__:** ${discordid} (<@${discordid}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Pterodactyl Panel ID**: ${pteroid}`,
+                        color: hexToDecimal("#ffff00")
+                    }
+                ]
+            })
+            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: params
+            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
+        }
+    });
     
     app.get("/getip", async (req, res) => {
         let theme = indexjs.get(req);
