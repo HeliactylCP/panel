@@ -1,5 +1,5 @@
 {
-  "version": "11.1.2",
+  "version": "11.2.0",
   "defaulttheme": "default",
   "note": "To make a custom theme for Heliactyl, create a folder inside /themes/ and change the value above",
   "website": {
