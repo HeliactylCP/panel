@@ -6,7 +6,7 @@ const ejs = require("ejs");
 const fetch = require('node-fetch');
 
 module.exports.load = async function(app, db) {
-  app.get("/redeem_coupon", async (req, res) => {
+  app.get("/coupon_redeem", async (req, res) => {
     if (!req.session.pterodactyl) return res.redirect("/login");
 
     let theme = indexjs.get(req);
