@@ -7,18 +7,23 @@
 Making a free or paid host and need a way for users to sign up, earn coins, manage servers? Try out Heliactyl.
 To get started, scroll down and follow the guide
 
-Our features:
-- Join for Resources
-- Anti Discord Ratelimit
-- Gift Resources
-- Improved API
-- Corona Admin Theme
+All features:
+- Resource Management (gift, use it to create servers, etc)
+- Coins (AFK Page earning)
+- Coupons (Gives resources & coins to a user)
+- Servers (create, view, edit servers)
+- User System (auth, regen password, etc)
+- Store (buy resources with coins)
+- Dashboard (view resources & servers from one area)
+- Join for Resources (join discord servers for resources)
+- Admin (set/add/remove coins & resources, create/revoke coupons)
+- Legal (tos/pp in footer & its own page)
 
-# Support
+# Warning
 
-Discord Server: https://dc.heliactyl.xyz
+You cannot remove the Powered by Heliactyl in the footer or we'll blacklist your Heliactyl dashboard
 
-# How to install
+# Install Guide (pt. 1)
 
 Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 1. Upload the file above onto a Pterodactyl NodeJS server [Download the egg from Parkervcp's GitHub Repository](https://github.com/parkervcp/eggs/tree/master/bots/discord/discord.js)
@@ -26,7 +31,7 @@ Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
 4. Start the server (Ignore the 2 strange errors that might come up)
 
-# Configure reverse proxy
+# Install Guide (pt. 2)
 
 1. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS IP address. (Example: dashboard.domain.com 192.168.0.1)
 2. Run `apt install nginx && apt install certbot` on the vps
