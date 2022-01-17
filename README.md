@@ -1,5 +1,5 @@
 
-![Heliactyl](https://cdn.discordapp.com/attachments/931948216461721621/932287426842468382/Copy_of_Copy_of_Fgffgg_20.png)
+![Heliactyl](https://cdn.discordapp.com/attachments/932708720369094737/932709361699151912/Copy_of_Fgffgg_44.png)
 
 <hr>
 
@@ -22,6 +22,12 @@ All features:
 # Warning
 
 You cannot remove the Powered by Heliactyl in the footer or we'll blacklist your Heliactyl dashboard
+
+# Demo Panel
+
+We have a demo Heliactyl already set up
+Link: http://uk1.core.encaded.cc:25502/
+(This is a testing panel so there is no SSL right now)
 
 # Install Guide (pt. 1)
 
