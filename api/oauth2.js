@@ -53,6 +53,7 @@ module.exports.load = async function(app, db) {
       if (scopes.replace(/identify/g, "") == scopes) missingscopes.push("identify");
       if (scopes.replace(/email/g, "") == scopes) missingscopes.push("email");
       if (newsettings.api.client.bot.joinguild.enabled == true) if (scopes.replace(/guilds.join/g, "") == scopes) missingscopes.push("guilds.join");
+      if (newsettings.api.client.j4r.enabled) if (scopes.replace(/guilds/g, "") == scopes) missingscopes.push("guilds");
       if (missingscopes.length !== 0) return res.send("Missing scopes: " + missingscopes.join(", "));
       let userjson = await fetch(
         'https://discord.com/api/users/@me',
