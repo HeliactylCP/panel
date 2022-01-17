@@ -46,6 +46,7 @@ Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 5. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
 6. Paste the configuration at the bottom of this and replace with the IP of the pterodactyl server including the port and with the domain you want your dashboard to be hosted on.
 7. Run `systemctl restart nginx` and try open your domain.
+# Nginx Proxy Config
 ```
 server {
 listen 80;
