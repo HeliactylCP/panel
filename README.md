@@ -81,4 +81,5 @@ proxy_redirect http://<IP> https://<DOMAIN>;
 }
 ```
 <hr>
-![Heliactyl](https://cdn.discordapp.com/attachments/932708720369094737/932710187754741770/unknown.png)
+
+![Heliactyl2](https://cdn.discordapp.com/attachments/932708720369094737/932710187754741770/unknown.png)
