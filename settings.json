@@ -15,6 +15,10 @@
   "limits": {
     "note": "Unsupported, go to /api/store.js and edit the values there"
   },
+  "ads": {
+    "enabled": true,
+    "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl. Please check /themes/default/components/ads.ejs"
+  },
   "database": "sqlite://database.sqlite",
   "api": {
     "client": {
