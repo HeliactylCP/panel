@@ -64,10 +64,12 @@
                                 <td> <%= pterodactyl.relationships.servers.data[i].attributes.limits.memory %>MB </td>
                                 <td> <%= pterodactyl.relationships.servers.data[i].attributes.limits.disk %>MB </td>
                                 <td>
-                                <a role="button" class="badge badge-outline-green" href="/servers/edit?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>">Edit</a>
-                                </td>
-                                <td>
-                                <a role="button" class="badge badge-outline-red" onclick="if (confirm('Are you sure you want to delete the server? This action is irreversible.')) { window.location.href='/delete?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>' }">Delete</a>
+                                <a role="button" class="btn btn-primary" href="/servers/edit?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>">Edit</a>
+                                <a role="button" class="btn btn-danger" onclick="if (confirm('Please confirm you want to delete this server, the data cannot be retrieved after it has been deleted.')) { window.location.href='/delete?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>' }">Delete</a>
+                                <% if (settings.api.client.allow.renewsuspendsystem.enabled) { %>
+                                <a role="button" class="btn btn-info" href="/renew?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>">Renew</a>
+                                <% } %>
+                                <a role="button" class="btn btn-warning" href="<%= settings.pterodactyl.domain %>/server/<%= pterodactyl.relationships.servers.data[i].attributes.identifier %>">Link</a>
                                 </td>
                                 </tr>
                               <% } %>
