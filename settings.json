@@ -71,7 +71,8 @@
         "renewsuspendsystem": {
           "_comment": "This feature requires a restart in order to work. Also, this requires every server to start suspended, or else this feature would not work for some servers.",
           "enabled": false,
-          "time": 3600
+          "time": 3600,
+          "cost": 0
         }
       },
       "oauth2": {
