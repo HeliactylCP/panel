@@ -52,7 +52,8 @@
         "coins": "coins.ejs",
         "store": "store.ejs",
         "privacy-policy": "privacy-policy.ejs",
-        "terms-of-service": "terms-of-service.ejs"
+        "terms-of-service": "terms-of-service.ejs",
+        "lv": "lv.ejs"
     },
     "mustbeloggedin": [
         "/dashboard",
@@ -62,7 +63,8 @@
         "/j4r",
         "/gift",
         "/store",
-        "/coins"
+        "/coins",
+        "/lv"
     ],
     "mustbeadmin": [
         "/admin"
