@@ -24,6 +24,7 @@
     "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl. Please check /themes/default/components/ads.ejs"
   },
   "lv": {
+    "note":"This is linkvertise earning, make account at https://publisher.linkvertise.com and then go to full script api and put user ID below, clienturl is like client.spermnodes.xyz or whatever it is",
     "userid":0,
     "clienturl":"client.google.com"
   },
