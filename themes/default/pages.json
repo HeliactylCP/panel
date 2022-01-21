@@ -19,7 +19,7 @@
         "failedsetresources": "/admin",
         "giftresources": "/gift",
         "failedgiftresources": "/gift",
-        "renewserver": "/servers",	
+        "renewserver": "/dashboard",	
         "setcoins": "/admin",	
         "failedsetcoins": "/admin",	
         "purchaseram": "/store",	
