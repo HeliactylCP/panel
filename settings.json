@@ -19,6 +19,10 @@
     "enabled": true,
     "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl. Please check /themes/default/components/ads.ejs"
   },
+  "lv": {
+    "userid":0,
+    "clienturl":"client.google.com"
+  },
   "database": "sqlite://database.sqlite",
   "api": {
     "client": {
