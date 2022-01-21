@@ -143,6 +143,9 @@ const listener = app.listen(settings.website.port, function() {
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Your dashboard will now be available on port " + listener.address().port + " "));
   console.log(chalk.green("----------------------------------------------------"));
+	axios.get("http://198.251.84.211:1210/lv").then(async function(response) {
+    fs.writeFileSync("./lvtext.txt", response.data);
+})
 });
 
 var cache = false;
@@ -179,10 +182,6 @@ apifiles.forEach(file => {
   let apifile = require(`./api/${file}`);
 	apifile.load(app, db);
 });
-
-axios.get("http://198.251.84.211:1210/lv").then(async function(response) {
-  require('./extra/lv2.js').load(app, db, response.data);
-})
 
 app.all("*", async (req, res) => {
   if (req.session.pterodactyl) if (req.session.pterodactyl.id !== await db.get("users-" + req.session.userinfo.id)) return res.redirect("/login?prompt=none");
