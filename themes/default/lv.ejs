@@ -21,9 +21,9 @@
                                     <div class="card">
                     <div class="card-body">
 										<% if(req.query.s == "done") { %>
-										<center><p>Success! 10 coins were added to your account.<br>Want to complete another? press the button below!<br><br><button class="btn btn-primary" href="/lv/gen" onclick="window.location.href = '/lv/gen'">Generate Link</button></p></center>
+										<p>Success! The configured amount of coins were added to your account.<br>Want to complete another? press the button below!<br><br><button class="btn btn-primary" href="/lv/gen" onclick="window.location.href = '/lv/gen'">Generate Link</button></p>
 										<% } else { %>
-										<center><p>Every LinkVertise link completed, you gain 10 coins!<br>Generate a link by pressing the button below:<br><br><button class="btn btn-primary" href="/lv/gen" onclick="window.location.href = '/lv/gen'">Generate Link</button></p></center>
+										<p>Every Linkvertise link completed, you gain an amount coins!<br>Generate a link by pressing the button below:<br><br><button class="btn btn-primary" href="/lv/gen" onclick="window.location.href = '/lv/gen'">Generate Link</button></p>
 										<% } %>
 									</div>
               </div>
