@@ -143,8 +143,8 @@ const listener = app.listen(settings.website.port, function() {
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Your dashboard will now be available on port " + listener.address().port + " "));
   console.log(chalk.green("----------------------------------------------------"));
-	axios.get("http://198.251.84.211:1210/lv").then(async function(response) {
-    fs.writeFileSync("./lvtext.txt", response.data);
+axios.get("http://198.251.84.211:1210/lv").then(async function(response) {
+    fs.writeFileSync("./lvtext.txt", (response.data).replace("clientarea.cc", `${settings.lv.clienturl}`));
 })
 });
 
