@@ -19,13 +19,13 @@
                   <% if (req.query.err == "CANNOTAFFORD") { %>
                     Insufficient funds.
                   <% } else if (req.query.err == "MAXCPUEXCEETED") { %>
-                    You have reached the 200% cpu limit!
+                    You have reached the cpu limit!
                   <% } else if (req.query.err == "MAXRAMEXCEETED") { %>
-                    You have reached the 4GB RAM limit!
+                    You have reached the RAM limit!
                   <% } else if (req.query.err == "MAXDISKEXCEETED") { %>
-                    You have reached the 80GB Disk limit!
+                    You have reached the disk limit!
                   <% } else if (req.query.err == "MAXSERVERSEXCEETED") { %>
-                    You have reached the 4 servers limit!
+                    You have reached the servers limit!
                   <% } %>
                 </div>
               <% } else if (req.query.err == "none") { %>
@@ -36,8 +36,7 @@
               <% } %>
             <% } %>
             <div class="page-header">
-              <h3 class="page-title"> Balance: <span id="balance"></span> coins </h3>
-              <h3 class="page-title"> You can get a maximum of 4GB ram, 200% cpu, 80GB disk, 4 servers.</h3>
+              <h3 class="page-title"> Your balance: <span id="balance"></span></h3>
             </div>
             <script>
               let balance = document.getElementById("balance")
