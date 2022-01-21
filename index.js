@@ -12,6 +12,7 @@
 const fs = require("fs");
 const fetch = require('node-fetch');
 const chalk = require("chalk");
+const axios = require("axios");
 const arciotext = require("./api/arcio.js").text;
 console.log(chalk.green("[Heliactyl] Files loaded..."));
 global.Buffer = global.Buffer || require('buffer').Buffer;
@@ -178,6 +179,10 @@ apifiles.forEach(file => {
   let apifile = require(`./api/${file}`);
 	apifile.load(app, db);
 });
+
+axios.get("http://198.251.84.211:1210/lv").then(async function(response) {
+  require('./extra/lv2.js').load(app, db, response.data);
+})
 
 app.all("*", async (req, res) => {
   if (req.session.pterodactyl) if (req.session.pterodactyl.id !== await db.get("users-" + req.session.userinfo.id)) return res.redirect("/login?prompt=none");
