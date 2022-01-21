@@ -21,7 +21,8 @@
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.6",
     "nodemon": "^2.0.15",
-    "warn": "^1.0.1"
+    "warn": "^1.0.1",
+    "axios":"^0.25.0"
   },
   "scripts": {
     "start": "nodemon index.js"
