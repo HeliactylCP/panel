@@ -1,5 +1,5 @@
 {
-  "version": "11.2.0",
+  "version": "11.3.0",
   "defaulttheme": "default",
   "note": "To make a custom theme for Heliactyl, create a folder inside /themes/ and change the value above",
   "website": {
@@ -13,13 +13,14 @@
     "key": "Pterodactyl API Key"
   },
   "limits": {
+    "note": "This allows you to control the maximum amount of resources anyone can buy from the resources store.",
     "ram":1024,
     "cpu":200,
     "servers":4,
-    "disk":5000
+    "disk":5120
   },
   "ads": {
-    "enabled": true,
+    "enabled": false,
     "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl. Please check /themes/default/components/ads.ejs"
   },
   "lv": {
