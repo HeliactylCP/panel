@@ -272,6 +272,7 @@ app.post("/api/createcoupon", async (req, res) => {
   });
 
   app.get("/giftres", async (req, res) => {
+    if (req.query.id.includes(`${req.session.userinfo.id}`)) return res.send("Cannot gift to yourself.");
     if (!req.session.pterodactyl) return res.send("Not logged in.");
     if (req.query.ram.includes("-")) return res.send("Invalid number.");
     if (req.query.ram.includes("+")) return res.send("Invalid number.");
