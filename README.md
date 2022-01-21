@@ -21,7 +21,7 @@ All features:
 
 # Warning
 
-You cannot remove the Powered by Heliactyl in the footer or we'll blacklist your Heliactyl dashboard
+We cannot force you to keep the "Powered by Heliactyl" in the footer, but please consider keeping it. It helps getting more visibility to the project and so getting better. We won't do technical support for installations without the notice in the footer.
 
 # Demo Panel
 
@@ -47,7 +47,7 @@ Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 6. Paste the configuration at the bottom of this and replace with the IP of the pterodactyl server including the port and with the domain you want your dashboard to be hosted on.
 7. Run `systemctl restart nginx` and try open your domain.
 # Nginx Proxy Config
-```
+```Nginx
 server {
 listen 80;
 server_name <DOMAIN>;
