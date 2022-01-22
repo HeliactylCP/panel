@@ -7,6 +7,10 @@
     "warning": "To run Heliactyl on a domain, you need to setup a reverse proxy, the guide is on our GitHub",
     "secret": "Example Secret"
   },
+  "guildblacklist": {
+     "note":"Stop users using your host if they are in a certain discord server",
+    "guilds":[]
+  },
   "pterodactyl": {
     "domain": "Pterodactyl URL",
     "note": "Don't put a / in the domain, only put for example https://panel.heliactyl.xyz or server link wont work",
