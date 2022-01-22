@@ -1,5 +1,5 @@
 
-![Heliactyl](https://cdn.discordapp.com/attachments/932708720369094737/932709361699151912/Copy_of_Fgffgg_44.png)
+![Heliactyl](https://cdn.discordapp.com/attachments/881207010417315861/934443905326383204/Copy_of_Copy_of_Fgffgg_22.png)
 
 <hr>
 
@@ -9,7 +9,7 @@ To get started, scroll down and follow the guide
 
 All features:
 - Resource Management (gift, use it to create servers, etc)
-- Coins (AFK Page earning)
+- Coins (AFK Page earning, Linkvertise earning)
 - Coupons (Gives resources & coins to a user)
 - Servers (create, view, edit servers)
 - User System (auth, regen password, etc)
@@ -17,17 +17,13 @@ All features:
 - Dashboard (view resources & servers from one area)
 - Join for Resources (join discord servers for resources)
 - Admin (set/add/remove coins & resources, create/revoke coupons)
+- API (for bots & other things)
 - Legal (tos/pp in footer & its own page)
 
 # Warning
 
 We cannot force you to keep the "Powered by Heliactyl" in the footer, but please consider keeping it. It helps getting more visibility to the project and so getting better. We won't do technical support for installations without the notice in the footer.
 
-# Demo Panel
-
-We have a demo Heliactyl already set up
-Link: http://uk1.core.encaded.cc:25502/
-(This is a testing panel so there is no SSL right now)
 
 # Install Guide (pt. 1)
 
@@ -83,4 +79,4 @@ proxy_redirect http://<IP> https://<DOMAIN>;
 ```
 <hr>
 
-![Heliactyl2](https://cdn.discordapp.com/attachments/932708720369094737/932710187754741770/unknown.png)
+![Heliactyl2](https://cdn.discordapp.com/attachments/881207010417315861/934444412367405076/unknown.png)
