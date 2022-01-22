@@ -113,6 +113,9 @@ module.exports.load = async function(app, db) {
                 "disk": 0,
                 "servers": 0
             }
+	await guildsinfo.forEach(async g => {
+		if(newsettings.guildblacklist.guilds.includes(`${g.id}`)) return res.send("You are in a guild which is blacklisted on this host!");	
+	})
         if (newsettings.api.client.j4r.enabled == true) {
             if (guildsinfo.message == '401: Unauthorized') return res.send("Please allow us to know what servers you are in to let the J4R system work properly.")
         	await guildsinfo.forEach(async (guild) => {
