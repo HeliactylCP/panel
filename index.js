@@ -50,6 +50,8 @@ const defaultthemesettings = {
   variables: {}
 };
 
+console.log("Heliactyl")
+
 module.exports.renderdataeval =
   `(async () => {
    let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
@@ -179,8 +181,10 @@ app.use(function(req, res, next) {
 let apifiles = fs.readdirSync('./api').filter(file => file.endsWith('.js'));
 
 apifiles.forEach(file => {
+	if(apisettings2) {
   let apifile = require(`./api/${file}`);
 	apifile.load(app, db);
+	}
 });
 
 app.all("*", async (req, res) => {
