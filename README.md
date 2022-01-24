@@ -56,7 +56,7 @@ ssl_certificate /etc/letsencrypt/live/<DOMAIN>/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/<DOMAIN>/privkey.pem;
 ssl on;
 ssl_session_cache builtin:1000 shared:SSL:10m;
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
 ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
 ssl_prefer_server_ciphers on;
 access_log /var/log/nginx/access.log;
@@ -64,16 +64,15 @@ location /afkwspath {
   proxy_http_version 1.1;
   proxy_set_header Upgrade $http_upgrade;
   proxy_set_header Connection "upgrade";
-  proxy_pass "http://<IP>/afkwspath";
+  proxy_pass "http://localhost:<port>/afkwspath";
 }
 location / {
 proxy_set_header Host $host;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
-proxy_pass http://<IP>;
+proxy_pass http://localhost:<port>;
 proxy_read_timeout 90;
-proxy_redirect http://<IP> https://<DOMAIN>;
   }
 }
 ```
