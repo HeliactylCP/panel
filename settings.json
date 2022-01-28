@@ -1,5 +1,6 @@
 {
   "version": "11.3.1",
+  "important-warning": "Everything must use https:// or Heliactyl will fail to start properly",
   "defaulttheme": "default",
   "note": "To make a custom theme for Heliactyl, create a folder inside /themes/ and change the value above",
   "website": {
