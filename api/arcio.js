@@ -3,8 +3,6 @@ const indexjs = require("../index.js");
 const arciotext = (require("./arcio.js")).text;
 const ejs = require("ejs");
 const chalk = require("chalk");
-const NodeCache = require('node-fetch')
-const reqCache = new NodeCache({ttl:120})
 
 let currentlyonpage = {};
 
@@ -39,9 +37,6 @@ module.exports.load = async function(app, db) {
   });
 
   app.ws("/" + settings.api.arcio["afk page"].path, async (ws, req) => {
-    if(!reqCache.get("ratelimitslel")) reqCache.get("ratelimitslel", 2);
-    reqCache.set("ratelimitslel", reqCache.get("ratelimitslel") + 1)
-    if(reqCache.get("ratelimitslel") >= 100) return ws.close();
     if (!req.session.arcsessiontoken) return ws.close();
 
     let token = req.headers["sec-websocket-protocol"];

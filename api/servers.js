@@ -147,6 +147,24 @@ module.exports.load = async function(app, db) {
           if (settings.api.client.allow.renewsuspendsystem.enabled == true) {
             renew.set(serverinfotext.attributes.id);
           }
+          if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("SERVER")) {
+            let params = JSON.stringify({
+                embeds: [
+                    {
+                        title: "Server Created",
+                        description: `**__User:__** ${req.session.userinfo.username}#${req.session.userinfo.discriminator} (${req.session.userinfo.id})\n\n**__Configuration:__**\n**Name:** ${name}\n**Ram:** ${ram}MB\n**Disk:** ${disk}MB\n**CPU:** ${cpu}%\n**Egg:** ${egg}\n**Location:** ${location}`,
+                        color: hexToDecimal("#ffff00")
+                    }
+                ]
+            })
+            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: params
+            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
+        }
           return res.redirect(theme.settings.redirect.createserver ? theme.settings.redirect.createserver : "/");
         } else {
           res.redirect(`${redirectlink}?err=NOTANUMBER`);

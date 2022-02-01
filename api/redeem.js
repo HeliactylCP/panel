@@ -62,6 +62,25 @@ module.exports.load = async function(app, db) {
 
     let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
 
+    if (newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("COUPONREDEEM")) {
+      let params = JSON.stringify({
+        embeds: [
+          {
+            title: "Coupon Redeemed",
+            description: `**__User:__** ${req.session.userinfo.username}#${req.session.userinfo.discriminator} (${req.session.userinfo.id})\n\n**Code**: ${code}`,
+            color: hexToDecimal("#ffff00")
+          }
+        ]
+      })
+      fetch(`${newsettings.api.client.webhook.webhook_url}`, {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: params
+      }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
+    }
+
   });
 }
 

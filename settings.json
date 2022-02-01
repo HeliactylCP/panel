@@ -1,21 +1,15 @@
 {
-  "version": "11.3.1",
-  "important-warning": "Everything must use https:// or Heliactyl will fail to start properly",
+  "version": "11.4.0",
   "defaulttheme": "default",
-  "note": "To make a custom theme for Heliactyl, create a folder inside /themes/ and change the value above",
   "website": {
     "port": 80,
     "warning": "To run Heliactyl on a domain, you need to setup a reverse proxy, the guide is on our GitHub",
     "secret": "Example Secret"
   },
-  "guildblacklist": {
-     "note":"Stop users using your host if they are in a certain discord server",
-    "guilds":[]
-  },
   "pterodactyl": {
-    "domain": "Pterodactyl URL",
+    "domain": "panel link",
     "note": "Don't put a / in the domain, only put for example https://panel.heliactyl.xyz or server link wont work",
-    "key": "Pterodactyl API Key"
+    "key": "api key with all read and writes"
   },
   "limits": {
     "note": "This allows you to control the maximum amount of resources anyone can buy from the resources store.",
@@ -26,12 +20,8 @@
   },
   "ads": {
     "enabled": false,
-    "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl. Please check /themes/default/components/ads.ejs"
-  },
-  "lv": {
-    "note":"This is linkvertise earning, make account at https://publisher.linkvertise.com and then go to full script api and put user ID below, clienturl is like client.spermnodes.xyz or whatever it is",
-    "userid":0,
-    "clienturl":"client.google.com"
+    "script": "Add your adsense etc here.",
+    "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl."
   },
   "database": "sqlite://database.sqlite",
   "api": {
@@ -49,7 +39,7 @@
              "disk": 512,
              "servers": 0
          },
-         "ads": [
+         "j4rads": [
              {
              	"name": "Example server",
                 "invite": "https://discord.gg/Tz2bkhk5Pn"
@@ -66,6 +56,16 @@
            "_comment": "The Discord bot must be in these servers and have invite permissions.",
            "enabled": true,
            "guildid": ["example"]
+        }
+      },
+      "webhook": {
+        "_comment": "URL of the webhook to send messages to.",
+        "webhook_url": "",
+        "auditlogs": {
+          "_comment": "This feature allows you to log actions, and get an overview of a users actions (only works if done with dashactyl, not ptero)",
+          "enabled": false,
+          "_comment2": "The types of notifications disabled. Values: ADMIN, LOGIN, SERVER, COUPONREDEEM",
+          "disabled": []
         }
       },
       "passwordgenerator": {
@@ -91,29 +91,30 @@
       },
       "oauth2": {
         "_comment": "Go to https://discord.dev/ and create an application to set these up.",
-        "id": "id",
-        "secret": "secret",
-        "link": "link",
+        "id": "id of the application",
+        "secret": "secret of the application",
+        "link": "link of website wihtout /callback",
         "callbackpath": "/callback",
         "prompt": true,
 
         "ip": {
           "trust x-forwarded-for": true,
           "block": [],
-          "duplicate check": false
+
+          "_comment": "'duplicate check' is an anti-alt check by IPs.",
+          "duplicate check": false,
+
+          "_comment2": "'cookie alt check' is an anti-alt check by cookies.",
+          "cookie alt check": true
         }
       },
       "ratelimits": {
-        "/callback": 2,
-        "/create": 1,
-        "/delete": 1,
-        "/modify": 1,
-        "/updateinfo": 1,
-        "/setplan": 2,
-        "/admin": 1,
-        "/regen": 1,
-        "/renew": 1,
-        "/api/userinfo": 1
+        "enabled": true,
+
+        "trust x-forwarded-for": true,
+
+        "requests": 30,
+        "per second": 60
       },
       "packages": {
         "default": "default",
@@ -221,7 +222,7 @@
     "arcio": {	
       "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",	
       "enabled": true,	
-      "widgetid": "Arc Widget ID",	
+      "widgetid": "",	
       "afk page": {	
         "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",	
         "_comment2": "Make sure coins are enabled if you choose to enable this option!",	
