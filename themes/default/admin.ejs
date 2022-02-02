@@ -12,8 +12,13 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
+            <div class="alert" style="background-color: #00d415;">
+             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+             Thanks for upgrading to Heliactyl 11.4.1! This version fixes all the problems introduced in 11.3.x
+            </div>
             <% if (req.query.err) { %>
               <% if (req.query.err !== "none") { %>
+               <br>
                 <div class="alert">
                   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                   <% if (req.query.err == "MISSINGID") { %>
