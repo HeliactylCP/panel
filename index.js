@@ -214,6 +214,7 @@ app.all("*", async (req, res) => {
   let theme = indexjs.get(req);
 
   let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
+  if (newsettings.api.arcio.enabled == true) req.session.arcsessiontoken = Math.random().toString(36).substring(2, 15);
   
   if (theme.settings.mustbeloggedin.includes(req._parsedUrl.pathname)) if (!req.session.userinfo || !req.session.pterodactyl) return res.redirect("/login" + (req._parsedUrl.pathname.slice(0, 1) == "/" ? "?redirect=" + req._parsedUrl.pathname.slice(1) : ""));
   if (theme.settings.mustbeadmin.includes(req._parsedUrl.pathname)) {
