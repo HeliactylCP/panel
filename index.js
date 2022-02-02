@@ -113,7 +113,7 @@ const listener = app.listen(settings.website.port, function() {
   console.log(chalk.green("[Heliactyl] Finishing & deploying Heliactyl..."));
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Heliactyl: v11 - Kanjut"));
-  console.log(chalk.green("Release: v11.2.0"));
+  console.log(chalk.green("Release: v11.4.1"));
   console.log(chalk.green("----------------------------------------------------"));
   console.log(chalk.green("Your dashboard will now be available on port " + listener.address().port + " "));
   console.log(chalk.green("----------------------------------------------------"));
