@@ -1,5 +1,5 @@
 {
-  "version": "11.4.1",
+  "version": "11.4.2",
   "defaulttheme": "default",
   "website": {
     "port": 80,
@@ -7,7 +7,7 @@
     "secret": "Example Secret"
   },
   "pterodactyl": {
-    "domain": "panel link",
+    "domain": "Panel URL, example: https://dev.heliactyl.xyz",
     "note": "Don't put a / in the domain, only put for example https://panel.heliactyl.xyz or server link wont work",
     "key": "api key with all read and writes"
   },
@@ -54,7 +54,7 @@
          "token": "Discord Bot Token",
          "joinguild": {
            "_comment": "The Discord bot must be in these servers and have invite permissions.",
-           "enabled": true,
+           "enabled": false,
            "guildid": ["example"]
         }
       },
@@ -196,10 +196,10 @@
         }
       },
       "coins": {
-        "enabled": true,
+        "enabled": false,
         "store": {
           "_comment": "The cost and per is not intended to used with 0. This is not intended to sell resources for coins. Make sure coins are enabled too, or else there can be errors.",
-          "enabled": true,
+          "enabled": false,
           "ram": {
             "cost": 100,
             "per": 1
@@ -221,12 +221,12 @@
     },
     "arcio": {	
       "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",	
-      "enabled": true,	
-      "widgetid": "",	
+      "enabled": false,	
+      "widgetid": "This usually a 6 digit ID that you can find on Arc Installation page",	
       "afk page": {	
         "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",	
         "_comment2": "Make sure coins are enabled if you choose to enable this option!",	
-        "enabled": true,	
+        "enabled": false,	
         "_comment3": "If you change the path, you need to restart for it to take full effect.",	
         "path": "afkwspath",	
         "_comment4": "This afk page will give the users [coins variable] coins every [every variable] seconds.",	
