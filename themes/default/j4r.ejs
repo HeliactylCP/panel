@@ -17,11 +17,11 @@
             </div>
         <%- include('./components/ads') %>
             <div class="row">
-              <% for (let i = 0, len = settings.api.client.j4r.ads.length; i < len; i++) { %>
+              <% for (let i = 0, len = settings.api.client.j4r.j4rads.length; i < len; i++) { %>
                 <div class="col-md-6 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title"><%= settings.api.client.j4r.ads[i].name %></h4>
+                      <h4 class="card-title"><%= settings.api.client.j4r.j4rads[i].name %></h4>
                       <p class="card-description"> Join this server to receive: <br> <%= settings.api.client.j4r.every.cpu %>% CPU, <%= settings.api.client.j4r.every.ram %>MB RAM & <%= settings.api.client.j4r.every.disk / 1024 %>GB Disk </p>
                       <form class="forms-sample">
                         <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="<%= settings.api.client.j4r.j4rads[i].invite %>">Join Server</a>
