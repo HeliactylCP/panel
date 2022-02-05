@@ -282,3 +282,7 @@ function makeid(length) {
   }
   return result;
 }
+
+function hexToDecimal(hex) {
+  return parseInt(hex.replace("#",""), 16)
+}
