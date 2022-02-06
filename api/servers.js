@@ -329,3 +329,7 @@ module.exports.load = async function(app, db) {
     }
   });
 };
+
+function hexToDecimal(hex) {
+  return parseInt(hex.replace("#",""), 16)
+}
