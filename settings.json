@@ -113,8 +113,8 @@
 
         "trust x-forwarded-for": true,
 
-        "requests": 30,
-        "per second": 60
+        "requests": 2,
+        "per second": 20
       },
       "packages": {
         "default": "default",
