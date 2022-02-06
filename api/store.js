@@ -3,12 +3,12 @@ const arciotext = (require("./arcio.js")).text;
 const adminjs = require("./admin.js");
 const fs = require("fs");
 const ejs = require("ejs");
-let somegayshit = require('../settings.json')
+let newsettings = require('../settings.json')
 module.exports.load = async function(app, db) {
-  let maxram = somegayshit.limits.ram;
-  let maxcpu = somegayshit.limits.cpu;
-  let maxservers = somegayshit.limits.servers;
-  let maxdisk = somegayshit.limits.disk;
+  let maxram = newsettings.limits.ram;
+  let maxcpu = newsettings.limits.cpu;
+  let maxservers = newsettings.limits.servers;
+  let maxdisk = newsettings.limits.disk;
   app.get("/buyram", async (req, res) => {
     let newsettings = await enabledCheck(req, res);
     if (newsettings) {
