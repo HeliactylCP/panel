@@ -278,7 +278,7 @@ app.post("/api/createcoupon", async (req, res) => {
     if (req.query.ram.includes("+")) return res.send("Invalid number.");
     let theme = indexjs.get(req);
 
-    let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
+    let newsettings = JSON.parse(fs.readFileSync("../settings.json").toString());
     let failredirect = theme.settings.redirect.failedgiftresources ? theme.settings.redirect.failedgiftresources : "/";
     let successredirect = theme.settings.redirect.giftresources ? theme.settings.redirect.giftresources : "/";
     let usr1 = await db.get("extra-" + req.session.userinfo.id)
@@ -371,7 +371,7 @@ app.post("/api/createcoupon", async (req, res) => {
   });
 
   async function check(req, res) {
-    let settings = JSON.parse(fs.readFileSync("./settings.json").toString());
+    let settings = JSON.parse(fs.readFileSync("../settings.json").toString());
     if (settings.api.client.api.enabled == true) {
       let auth = req.headers['authorization'];
       if (auth) {
