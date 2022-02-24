@@ -1,5 +1,5 @@
 
-![Heliactyl](https://cdn.discordapp.com/attachments/881207010417315861/934443905326383204/Copy_of_Copy_of_Fgffgg_22.png)
+![Heliactyl](https://cdn.discordapp.com/attachments/881207010417315861/946403911567310878/Aesthetic_Phone_Wallpaper_with_Motivational_Quotes_YouTube_Channel_Art_4.png)
 
 <hr>
 
