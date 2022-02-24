@@ -13,12 +13,10 @@ const fs = require("fs");
 const fetch = require('node-fetch');
 const chalk = require("chalk");
 const arciotext = require("./api/arcio.js").text;
-console.log(chalk.green("[Heliactyl] Files loaded..."));
 
 // Load settings.
 
 const settings = require("./settings.json");
-console.log(chalk.green("[Heliactyl] Settings loaded..."));
 
 const defaultthemesettings = {
   index: "index.ejs",
@@ -84,7 +82,6 @@ const db = new Keyv(settings.database);
 const express = require("express");
 const app = express();
 const expressWs = require('express-ws')(app);
-console.log(chalk.green("[Heliactyl] Pages loaded..."));
 
 // Load express addons.
 
@@ -108,15 +105,10 @@ app.use(express.json({
 }));
 
 const listener = app.listen(settings.website.port, function() {
-  console.log(chalk.green("[Heliactyl] Checking for updates..."));
   // no update system yet, soontm
-  console.log(chalk.green("[Heliactyl] Finishing & deploying Heliactyl..."));
-  console.log(chalk.green("----------------------------------------------------"));
-  console.log(chalk.green("Heliactyl: v11 - Kanjut"));
-  console.log(chalk.green("Release: v11.4.3"));
-  console.log(chalk.green("----------------------------------------------------"));
-  console.log(chalk.green("Your dashboard will now be available on port " + listener.address().port + " "));
-  console.log(chalk.green("----------------------------------------------------"));
+  console.log(chalk.green("――――――――――――――――――――――――――――――――――――――――――――――――"));
+  console.log(chalk.green("Heliactyl is online! Port: " + listener.address().port + " "));
+  console.log(chalk.green("――――――――――――――――――――――――――――――――――――――――――――――――"));
 });
 
 let ipratelimit = {};
