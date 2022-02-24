@@ -26,7 +26,7 @@ module.exports.load = async function (app, db) {
 
     if (!(await db.get("users-" + req.query.id))) return res.send({ status: "invalid id" });
 
-    let newsettings = JSON.parse(fs.readFileSync("../settings.json").toString());
+    let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
 
     if (newsettings.api.client.oauth2.link.slice(-1) == "/")
       newsettings.api.client.oauth2.link = newsettings.api.client.oauth2.link.slice(0, -1);
@@ -104,7 +104,7 @@ module.exports.load = async function (app, db) {
     
   app.get("/api/updateCoins", async (req, res) => {
     if (!req.session.pterodactyl) return res.redirect("/login");
-    let newsettings = JSON.parse(fs.readFileSync("../settings.json").toString());
+    let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
     let userinfo = req.session.userinfo
     let b = await db.get(`coins-${req.session.userinfo.id}`)
     if(myCache.get(`coins_${userinfo.id}`) == true) return res.send({coins: b});
@@ -278,7 +278,7 @@ app.post("/api/createcoupon", async (req, res) => {
     if (req.query.ram.includes("+")) return res.send("Invalid number.");
     let theme = indexjs.get(req);
 
-    let newsettings = JSON.parse(fs.readFileSync("../settings.json").toString());
+    let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
     let failredirect = theme.settings.redirect.failedgiftresources ? theme.settings.redirect.failedgiftresources : "/";
     let successredirect = theme.settings.redirect.giftresources ? theme.settings.redirect.giftresources : "/";
     let usr1 = await db.get("extra-" + req.session.userinfo.id)
@@ -371,7 +371,7 @@ app.post("/api/createcoupon", async (req, res) => {
   });
 
   async function check(req, res) {
-    let settings = JSON.parse(fs.readFileSync("../settings.json").toString());
+    let settings = JSON.parse(fs.readFileSync("./settings.json").toString());
     if (settings.api.client.api.enabled == true) {
       let auth = req.headers['authorization'];
       if (auth) {
