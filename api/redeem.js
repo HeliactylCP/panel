@@ -1,9 +1,5 @@
 const indexjs = require("../index.js");
-const arciotext = (require("./arcio.js")).text;
-const adminjs = require("./admin.js");
 const fs = require("fs");
-const ejs = require("ejs");
-const fetch = require('node-fetch');
 
 module.exports.load = async function(app, db) {
   app.get("/coupon_redeem", async (req, res) => {
@@ -61,25 +57,6 @@ module.exports.load = async function(app, db) {
     res.redirect(theme.settings.redirect.successfullyredeemedcoupon + "?err=SUCCESSCOUPONCODE");
 
     let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-    if (newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("COUPONREDEEM")) {
-      let params = JSON.stringify({
-        embeds: [
-          {
-            title: "Coupon Redeemed",
-            description: `**__User:__** ${req.session.userinfo.username}#${req.session.userinfo.discriminator} (${req.session.userinfo.id})\n\n**Code**: ${code}`,
-            color: hexToDecimal("#ffff00")
-          }
-        ]
-      })
-      fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-        method: "POST",
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: params
-      }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-    }
 
   });
 }

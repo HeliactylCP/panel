@@ -1,11 +1,13 @@
 const indexjs = require("../index.js");
 const adminjs = require("./admin.js");
-const arciotext = (require("./arcio.js")).text;
 const fs = require("fs");
 const ejs = require("ejs");
 const fetch = require('node-fetch');
 const NodeCache = require( "node-cache" );
+const Queue = require("../managers/Queue.js");
 const myCache = new NodeCache({ deleteOnExpire: true, stdTTL: 59 });
+const log = require('../misc/log')
+const verifyCaptchaResponse = require('../misc/verifyCaptchaResponse')
 
 module.exports.load = async function (app, db) {
   app.get("/api", async (req, res) => {
@@ -67,12 +69,6 @@ module.exports.load = async function (app, db) {
       status: "success",
       package: package,
       extra: await db.get("extra-" + req.query.id) ? await db.get("extra-" + req.query.id) : {
-        ram: 0,
-        disk: 0,
-        cpu: 0,
-        servers: 0
-      },
-      j4r: await db.get("j4r-" + req.query.id) ? await db.get("j4r-" + req.query.id) : {
         ram: 0,
         disk: 0,
         cpu: 0,
@@ -271,8 +267,51 @@ app.post("/api/createcoupon", async (req, res) => {
     }
   });
 
+  const queue = new Queue()
+  app.get("/giftcoins", async (req, res) => {
+    if (!req.session.pterodactyl) return res.redirect(`/`);
+
+    const coins = parseInt(req.query.coins)
+    if (!coins || !req.query.id) return res.redirect(`/gift?err=MISSINGFIELDS`);
+    if (req.query.id.includes(`${req.session.userinfo.id}`)) return res.redirect(`/gift?err=CANNOTGIFTYOURSELF`)
+
+    const captcha = req.query.captcha
+    if (!captcha) {
+      return res.redirect(`/gift?err=MUSTCOMPLETECAPTCHA`)
+    }
+
+    if (coins < 1) return res.redirect(`/gift?err=TOOLOWCOINS`)
+
+    queue.addJob(async (cb) => {
+
+      const verified = await verifyCaptchaResponse(captcha)
+      if (!verified) {
+        cb()
+        return res.redirect(`/gift?err=INVALIDCAPTCHARESPONSE`)
+      }
+
+      const usercoins = await db.get(`coins-${req.session.userinfo.id}`)
+      const othercoins = await db.get(`coins-${req.query.id}`)
+      if (!othercoins) {
+        cb()
+        return res.redirect(`/gift?err=USERDOESNTEXIST`)
+      }
+      if (usercoins < coins) {
+        cb()
+        return res.redirect(`/gift?err=CANTAFFORD`)
+      }
+  
+      await db.set(`coins-${req.query.id}`, othercoins + coins)
+      await db.set(`coins-${req.session.userinfo.id}`, usercoins - coins)
+
+      log('Gifted Credits', `${req.session.userinfo.username}#${req.session.userinfo.discriminator} sent ${coins}\ Credits to the user with the ID \`${req.query.id}\`.`)
+      cb()
+      return res.redirect(`/gift?success=true`);
+
+    })
+  });
+
   app.get("/giftres", async (req, res) => {
-    if (req.query.id.includes(`${req.session.userinfo.id}`)) return res.send("Cannot gift to yourself.");
     if (!req.session.pterodactyl) return res.send("Not logged in.");
     if (req.query.ram.includes("-")) return res.send("Invalid number.");
     if (req.query.ram.includes("+")) return res.send("Invalid number.");
@@ -392,7 +431,7 @@ app.post("/api/createcoupon", async (req, res) => {
           console.log(err);
           return res.send("An error has occured while attempting to load this page. Please contact an administrator to fix this.");
         };
-        res.status(404);
+        res.status(200);
         res.send(str);
       });
     return null;

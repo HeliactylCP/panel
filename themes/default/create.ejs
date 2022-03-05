@@ -2,6 +2,7 @@
 <html lang="en">
   <%- include('./components/head') %>
   <body>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <%- include('./components/sidebar') %>
@@ -11,22 +12,29 @@
         <%- include('./components/topnav') %>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
+          <div style="background-color: #111319" class="content-wrapper">
+           <h2>Deploy Server</h2>
+           <p class="text-gray">Deploy your new server.</p>
             <% if (req.query.err) { %>
-            <div class="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div style="border-radius: 15px;" class="alert">
                 <% if (req.query.err == "MISSINGVARIABLE") { %>
                     You have not filled out all of the server information.
                 <% } else if (req.query.err == "NOTANUMBER") { %>
                     RAM, disk and CPU must be a number.
                 <% } else if (req.query.err == "ERRORONCREATE") { %>
-                    This location is full, please check if there are available locations before creating a server.
+                    An error was reported by the Panel while attempting to create the server.
                 <% } else if (req.query.err == "BIGSERVERNAME") { %>
                     Your server name must be less than <b>191</b> characters.
                 <% } else if (req.query.err == "TOOMUCHSERVERS") { %>
                     Too many servers!
                 <% } else if (req.query.err == "PREMIUMLOCATION") { %>
                     Please select a location.
+                <% } else if (req.query.err == "TOOLITTLECOINS") { %>
+                    There was an unknown backend error while attempting to create the server.
+                <% } else if (req.query.err == "MUSTCOMPLETECAPTCHA") { %>
+                    You must complete the captcha to prove you are human!
+                <% } else if (req.query.err == "INVALIDCAPTCHARESPONSE") { %>
+                    You submitted an invalid captcha response, try again.
                 <% } else { %>
                     <% if (req.query.num) { %>
                         <% if (!isNaN(parseFloat(req.query.num))) { %>
@@ -64,10 +72,6 @@
                 <% } %>
             </div>
         <% } %>
-            <div class="page-header">
-              <h3 class="page-title"> Create Server </h3>
-            </div>
-            <%- include('./components/ads') %>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
@@ -75,23 +79,23 @@
                     <form class="forms-sample">
                       <div class="form-group">
                         <label for="InputName">Server Name</label>
-                        <input type="text" class="form-control" id="InputName" placeholder="My Server">
+                        <input style="border-radius: 15px; padding: 8px;" type="text" class="form-control" id="InputName" placeholder="My Server">
                       </div>
                       <div class="form-group">
                         <label for="InputCPU">CPU</label>
-                        <input type="number" class="form-control" id="InputCPU" placeholder="120">
+                        <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputCPU" placeholder="1">
                       </div>
                       <div class="form-group">
                         <label for="InputRAM">RAM</label>
-                        <input type="number" class="form-control" id="InputRAM" placeholder="2048">
+                        <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputRAM" placeholder="2">
                       </div>
                       <div class="form-group">
                         <label for="InputDisk">Disk</label>
-                        <input type="number" class="form-control" id="InputDisk" placeholder="20480">
+                        <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputDisk" placeholder="40">
                       </div>
                       <div class="form-group">
                         <label for="InputLoc">Location</label><BR>
-                        <select class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;" id="InputLoc">
+                        <select class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec; border-radius: 15px; padding: 8px;" id="InputLoc">
                           <% for (let [name, value] of Object.entries(settings.api.client.locations)) { %>
                             <option value="<%= name %>"><%= value.name %></option>
                           <% } %>
@@ -99,14 +103,27 @@
                       </div>
                       <div class="form-group">
                         <label for="InputEgg">Egg</label><BR>
-                        <select class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;" id="InputEgg">
+                        <select class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec; border-radius: 15px; padding: 8px;" id="InputEgg">
                           <% for (let [name, value] of Object.entries(settings.api.client.eggs)) { %>
                             <option value="<%= name %>"><%= value.display %></option>
                           <% } %>
                         </select>
                       </div>
-                      <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitNew()">Create</a>
+                      <a role="button" id="create-btn" class="btn btn-primary btn-lg" href="javascript: submitNew()">Deploy Server</a>
                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <form class="forms-sample">
+                      <div class="form-group">
+                        <p>Please complete this captcha to prove you're human and help protect our services from abuse!</p>
+                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -130,11 +147,12 @@
       async function submitNew() {
         let name = encodeURIComponent(document.getElementById("InputName").value);
         let egg = encodeURIComponent(document.getElementById("InputEgg").value);
-        let ram = encodeURIComponent(document.getElementById("InputRAM").value);
-        let disk = encodeURIComponent(document.getElementById("InputDisk").value);
-        let cpu = encodeURIComponent(document.getElementById("InputCPU").value);
+        let ram = encodeURIComponent(document.getElementById("InputRAM").value * 1024);
+        let disk = encodeURIComponent(document.getElementById("InputDisk").value * 1024);
+        let cpu = encodeURIComponent(document.getElementById("InputCPU").value * 100);
         let location = encodeURIComponent(document.getElementById("InputLoc").value);
-        document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram}&disk=${disk}&cpu=${cpu}&location=${location}`;
+        let captcha = encodeURIComponent(grecaptcha.getResponse())
+        document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram}&disk=${disk}&cpu=${cpu}&location=${location}&captcha=${captcha}`;
       };
     </script>
     <!-- End plugin js for this page -->

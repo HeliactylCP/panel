@@ -2,7 +2,6 @@ const settings = require("../settings.json");
 const fs = require('fs');
 
 const indexjs = require("../index.js");
-const arciotext = (require("./arcio.js")).text;
 const fetch = require('node-fetch');
 
 module.exports.load = async function(app, db) {
@@ -37,7 +36,7 @@ module.exports.load = async function(app, db) {
         })
       }
     );
-    await db.set(`pass-${req.session.userinfo.id}-pterptero`, `${newpassword}`)
+
     let theme = indexjs.get(req);
     res.redirect("/settings")
   });

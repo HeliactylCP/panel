@@ -7,10 +7,9 @@ if (settings.pterodactyl) if (settings.pterodactyl.domain) {
 const fetch = require('node-fetch');
 const fs = require("fs");
 const indexjs = require("../index.js");
-const arciotext = (require("./arcio.js")).text;
 const adminjs = require("./admin.js");
 const ejs = require("ejs");
-const chalk = require('chalk');
+const log = require('../misc/log')
 
 module.exports.load = async function(app, db) {
     app.get("/setcoins", async (req, res) => {
@@ -54,30 +53,8 @@ module.exports.load = async function(app, db) {
         }
 
         let successredirect = theme.settings.redirect.setcoins || "/";
+        log(`set coins`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} set the coins of the user with the ID \`${id}\` to \`${coins}\`.`)
         res.redirect(successredirect + "?err=none");
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Coins Set",
-                        description: `**__User:__** ${id} (<@${id}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Coins:** ${coins}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
 
     app.get("/addcoins", async (req, res) => {
@@ -123,30 +100,8 @@ module.exports.load = async function(app, db) {
         }
 
         let successredirect = theme.settings.redirect.setcoins || "/";
+        log(`add coins`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} added \`${req.query.coins}\` coins to the user with the ID \`${id}\`'s account.`)
         res.redirect(successredirect + "?err=none");
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Coins Add",
-                        description: `**__User:__** ${id} (<@${id}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Coins:** ${currentcoins} (new: ${coins})`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
 
     app.get("/setresources", async (req, res) => {
@@ -236,30 +191,7 @@ module.exports.load = async function(app, db) {
 
             adminjs.suspend(req.query.id);
 
-            // Just copy this and put it in the other endpoints
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-
-            let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-            if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-                let params = JSON.stringify({
-                    embeds: [
-                        {
-                            title: "Resources Added",
-                            description: `**__User:__** ${id} (<@${id}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Quantity:**\n- ${ramstring}MB RAM\n- ${diskstring}MB Disk\n- ${serversstring} Servers\n- ${cpustring}% CPU`,
-                            color: hexToDecimal("#ffff00")
-                        }
-                    ]
-                })
-                fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: params
-                }).catch(e => console.warn(chalk.red("[WEBHOOK] There was an error sending a message to the webhook:\n" + e)))
-            }
+            log(`set resources`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} set the resources of the user with the ID \`${id}\` to:\`\`\`servers: ${serversstring}\nCPU: ${cpustring}%\nMemory: ${ramstring} MB\nDisk: ${diskstring} MB\`\`\``)
             return res.redirect(successredirect + "?err=none");
         } else {
             res.redirect(`${failredirect}?err=MISSINGVARIABLES`);
@@ -296,30 +228,8 @@ module.exports.load = async function(app, db) {
         if (!req.query.package) {
             await db.delete("package-" + req.query.id);
             adminjs.suspend(req.query.id);
-            let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
 
-            if(newsettings.api.client.webhook.auditlogs.enabled === true && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-                let id = req.query.id;
-                let username = cacheaccountinfo.attributes.username;
-                let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-                let params = JSON.stringify({
-                    embeds: [
-                        {
-                            title: "Package Changed",
-                            description: `**__User:__** ${id} (<@${id}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Package:** ${req.query.package}`,
-                            color: hexToDecimal("#ffff00")
-                        }
-                    ]
-                })
-                fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: params
-                }).catch(e => console.warn(chalk.red("[WEBHOOK] There was an error sending a message to the webhook:\n" + e)));
-            }
-
+            log(`set plan`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} removed the plan of the user with the ID \`${req.query.id}\`.`)
             return res.redirect(successredirect + "?err=none");
         } else {
             let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
@@ -327,27 +237,7 @@ module.exports.load = async function(app, db) {
             await db.set("package-" + req.query.id, req.query.package);
             adminjs.suspend(req.query.id);
             
-            if(newsettings.api.client.webhook.auditlogs.enabled === true && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-                let id = req.query.id;
-                let username = cacheaccountinfo.attributes.username;
-                let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-                let params = JSON.stringify({
-                    embeds: [
-                        {
-                            title: "Package Changed",
-                            description: `**__User:__** ${id} (<@${id}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Package:** ${req.query.package}`,
-                            color: hexToDecimal("#ffff00")
-                        }
-                    ]
-                })
-                fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: params
-                }).catch(e => console.warn(chalk.red("[WEBHOOK] There was an error sending a message to the webhook:\n" + e)));
-            }
+            log(`set plan`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} set the plan of the user with the ID \`${req.query.id}\` to \`${req.query.package}\`.`)
             return res.redirect(successredirect + "?err=none");
         }
     });
@@ -402,30 +292,8 @@ module.exports.load = async function(app, db) {
             servers: servers
         });
 
+        log(`create coupon`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} created the coupon code \`${code}\` which gives:\`\`\`coins: ${coins}\nMemory: ${ram} MB\nDisk: ${disk} MB\nCPU: ${cpu}%\nServers: ${servers}\`\`\``)
         res.redirect(theme.settings.redirect.couponcreationsuccess + "?code=" + code)
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Created Coupon",
-                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}\n\n**Coins:** ${coins} coin${coins == 1 ? "": "s"}\n**RAM:** ${ram}MB\n**Disk:** ${disk}MB\n**CPU:** ${cpu}%\n**Servers:** ${servers} server${servers == 1 ? "": "s"}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
 
     app.get("/revoke_coupon", async (req, res) => {
@@ -454,30 +322,8 @@ module.exports.load = async function(app, db) {
 
         await db.delete("coupon-" + code);
 
+        log(`revoke coupon`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} revoked the coupon code \`${code}\`.`)
         res.redirect(theme.settings.redirect.couponrevokesuccess + "?revokedcode=true");
-        
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Revoked Coupon",
-                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
 
     app.get("/remove_account", async (req, res) => {
@@ -541,30 +387,8 @@ module.exports.load = async function(app, db) {
         await db.delete("extra-" + discordid);
         await db.delete("package-" + discordid);
 
+        log(`remove account`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} removed the account with the ID \`${discordid}\`.`)
         res.redirect(theme.settings.redirect.removeaccountsuccess + "?success=REMOVEACCOUNT");
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Removed Account",
-                        description: `**__User__:** ${discordid} (<@${discordid}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Pterodactyl Panel ID**: ${pteroid}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
     
     app.get("/getip", async (req, res) => {
@@ -593,222 +417,8 @@ module.exports.load = async function(app, db) {
 
         if (!(await db.get("ip-" + req.query.id))) return res.redirect(`${failredirect}?err=NOIP`);
         let ip = await db.get("ip-" + req.query.id);
+        log(`view ip`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} viewed the IP of the account with the ID \`${req.query.id}\`.`)
         return res.redirect(successredirect + "?err=NONE&ip=" + ip)
-    });
-
-    app.get("/create_coupon", async (req, res) => {
-        let theme = indexjs.get(req);
-
-        if (!req.session.pterodactyl) return four0four(req, res, theme);
-        
-        let cacheaccount = await fetch(
-            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
-            {
-            method: "get",
-            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
-            }
-        );
-        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
-        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
-
-        req.session.pterodactyl = cacheaccountinfo.attributes;
-        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
-
-        let code = req.query.code ? req.query.code.slice(0, 200) : Math.random().toString(36).substring(2, 15);
-
-        if (!code.match(/^[a-z0-9]+$/i)) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONINVALIDCHARACTERS");
-
-        let coins = req.query.coins || 0;
-        let ram = req.query.ram || 0;
-        let disk = req.query.disk || 0;
-        let cpu = req.query.cpu || 0;
-        let servers = req.query.servers || 0;
-
-        coins = parseFloat(coins);
-        ram = parseFloat(ram);
-        disk = parseFloat(disk);
-        cpu = parseFloat(cpu);
-        servers = parseFloat(servers);
-
-        if (coins < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
-        if (ram < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
-        if (disk < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
-        if (cpu < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
-        if (servers < 0) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONLESSTHANONE");
-
-        if (!coins && !ram && !disk && !cpu && !servers) return res.redirect(theme.settings.redirect.couponcreationfailed + "?err=CREATECOUPONEMPTY");
-
-        await db.set("coupon-" + code, {
-            coins: coins,
-            ram: ram,
-            disk: disk,
-            cpu: cpu,
-            servers: servers
-        });
-
-        res.redirect(theme.settings.redirect.couponcreationsuccess + "?code=" + code)
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Created Coupon",
-                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}\n\n**Coins:** ${coins} coin${coins == 1 ? "": "s"}\n**RAM:** ${ram}MB\n**Disk:** ${disk}MB\n**CPU:** ${cpu}%\n**Servers:** ${servers} server${servers == 1 ? "": "s"}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
-    });
-
-    app.get("/revoke_coupon", async (req, res) => {
-        let theme = indexjs.get(req);
-
-        if (!req.session.pterodactyl) return four0four(req, res, theme);
-        
-        let cacheaccount = await fetch(
-            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
-            {
-            method: "get",
-            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
-            }
-        );
-        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
-        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
-
-        req.session.pterodactyl = cacheaccountinfo.attributes;
-        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
-
-        let code = req.query.code;
-
-        if (!code.match(/^[a-z0-9]+$/i)) return res.redirect(theme.settings.redirect.couponrevokefailed + "?err=REVOKECOUPONCANNOTFINDCODE");
-
-        if (!(await db.get("coupon-" + code))) return res.redirect(theme.settings.redirect.couponrevokefailed + "?err=REVOKECOUPONCANNOTFINDCODE");
-
-        await db.delete("coupon-" + code);
-
-        res.redirect(theme.settings.redirect.couponrevokesuccess + "?revokedcode=true");
-        
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Revoked Coupon",
-                        description: `**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n__**Code:**__ ${code}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
-    });
-
-    app.get("/remove_account", async (req, res) => {
-        let theme = indexjs.get(req);
-
-        if (!req.session.pterodactyl) return four0four(req, res, theme);
-        
-        let cacheaccount = await fetch(
-            settings.pterodactyl.domain + "/api/application/users/" + (await db.get("users-" + req.session.userinfo.id)) + "?include=servers",
-            {
-                method: "get",
-                headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
-            }
-        );
-        if (await cacheaccount.statusText == "Not Found") return four0four(req, res, theme);
-        let cacheaccountinfo = JSON.parse(await cacheaccount.text());
-
-        req.session.pterodactyl = cacheaccountinfo.attributes;
-        if (cacheaccountinfo.attributes.root_admin !== true) return four0four(req, res, theme);
-
-        // This doesn't delete the account and doesn't touch the renewal system.
-
-        if (!req.query.id) return res.redirect(theme.settings.redirect.removeaccountfailed + "?err=REMOVEACCOUNTMISSINGID");
-
-        let discordid = req.query.id;
-        let pteroid = await db.get("users-" + discordid);
-
-        // Remove IP.
-
-        let selected_ip = await db.get("ip-" + discordid);
-
-        if (selected_ip) {
-        let allips = await db.get("ips") || [];
-        allips = allips.filter(ip => ip !== selected_ip);
-
-        if (allips.length == 0) {
-            await db.delete("ips");
-        } else {
-            await db.set("ips", allips);
-        }
-
-        await db.delete("ip-" + discordid);
-        }
-
-        // Remove user.
-
-        let userids = await db.get("users") || [];
-        userids = userids.filter(user => user !== pteroid);
-
-        if (userids.length == 0) {
-        await db.delete("users");
-        } else {
-        await db.set("users", userids);
-        }
-
-        await db.delete("users-" + discordid);
-
-        // Remove coins/resources.
-
-        await db.delete("coins-" + discordid);
-        await db.delete("extra-" + discordid);
-        await db.delete("package-" + discordid);
-
-        res.redirect(theme.settings.redirect.removeaccountsuccess + "?success=REMOVEACCOUNT");
-
-        let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-
-        if(newsettings.api.client.webhook.auditlogs.enabled && !newsettings.api.client.webhook.auditlogs.disabled.includes("ADMIN")) {
-            let username = cacheaccountinfo.attributes.username;
-            let tag = `${cacheaccountinfo.attributes.first_name}${cacheaccountinfo.attributes.last_name}`
-            let params = JSON.stringify({
-                embeds: [
-                    {
-                        title: "Removed Account",
-                        description: `**__User__:** ${discordid} (<@${discordid}>)\n**__Admin:__** ${tag} (<@${req.session.userinfo.id}>)\n\n**Pterodactyl Panel ID**: ${pteroid}`,
-                        color: hexToDecimal("#ffff00")
-                    }
-                ]
-            })
-            fetch(`${newsettings.api.client.webhook.webhook_url}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: params
-            }).catch(e => console.warn(chalk.red("[WEBSITE] There was an error sending to the webhook: " + e)));
-        }
     });
 
     app.get("/userinfo", async (req, res) => {

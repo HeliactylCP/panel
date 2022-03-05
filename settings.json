@@ -1,71 +1,50 @@
 {
-  "version": "11.4.4",
+  "version": "12.0.0",
   "defaulttheme": "default",
   "website": {
-    "port": 80,
-    "warning": "To run Heliactyl on a domain, you need to setup a reverse proxy, the guide is on our GitHub",
-    "secret": "Example Secret"
+    "port": 8000,
+    "secret": "Default Secret (Change this)"
   },
   "pterodactyl": {
-    "domain": "Panel URL, example: https://dev.heliactyl.xyz",
-    "note": "Don't put a / in the domain, only put for example https://panel.heliactyl.xyz or server link wont work",
-    "key": "api key with all read and writes"
+    "domain": "https://dev.sryden.cloud",
+    "key": "EbaxJviVDZLC56HOqcxoFhc3BdjvwvXsQhExqFsdI9obyJBb"
   },
-  "limits": {
-    "note": "This allows you to control the maximum amount of resources anyone can buy from the resources store.",
-    "ram":1024,
-    "cpu":200,
-    "servers":4,
-    "disk":5120
-  },
-  "ads": {
-    "enabled": false,
-    "script": "Add your adsense etc here.",
-    "note": "This allows you to put adsense, adsterra, etc easily into Heliactyl."
+  "linkvertise": {
+    "userid": 69420,
+    "coins": 2
   },
   "database": "sqlite://database.sqlite",
   "api": {
     "client": {
-       "api": {
-         "enabled": false,
-         "code": "Example API Code"
-       },
-       "j4r": {
-         "enabled": true,
-         "servers": ["example", "example"],
-         "every": {
-             "cpu": 10,
-             "ram": 512,
-             "disk": 512,
-             "servers": 0
-         },
-         "j4rads": [
-             {
-             	"name": "Example server",
-                "invite": "https://discord.gg/Tz2bkhk5Pn"
-         	 },
-             {
-                 "name": "Example server",
-                 "invite": "https://discord.gg/vSm7FGUXRf"
-         	 }
-         ]
-       },
-       "bot": {
-         "token": "Discord Bot Token",
-         "joinguild": {
-           "_comment": "The Discord bot must be in these servers and have invite permissions.",
-           "enabled": false,
-           "guildid": ["example"]
-        }
+      "api": {
+        "enabled": true,
+        "code": "Default API Key (Change this)"
       },
-      "webhook": {
-        "_comment": "URL of the webhook to send messages to.",
-        "webhook_url": "",
-        "auditlogs": {
-          "_comment": "This feature allows you to log actions, and get an overview of a users actions (only works if done with dashactyl, not ptero)",
+      "j4r": {
+        "enabled": true,
+        "ads": [
+          {
+            "name": "Example server 1",
+            "invite": "https://discord.gg/example",
+            "id": "000000000000000000",
+            "coins": 100
+          },
+          {
+            "name": "Example server 2",
+            "invite": "https://discord.gg/example",
+            "id": "000000000000000000",
+            "coins": 200
+          }
+        ]
+      },
+      "bot": {
+        "token": "Discord bot token here",
+        "joinguild": {
+          "_comment": "The Discord bot must be in these servers and have invite permissions.",
           "enabled": false,
-          "_comment2": "The types of notifications disabled. Values: ADMIN, LOGIN, SERVER, COUPONREDEEM",
-          "disabled": []
+          "guildid": [
+            "Guild ID 1"
+          ]
         }
       },
       "passwordgenerator": {
@@ -81,40 +60,32 @@
           "modify": true,
           "delete": true
         },
-        "overresourcessuspend": false,
-        "renewsuspendsystem": {
-          "_comment": "This feature requires a restart in order to work. Also, this requires every server to start suspended, or else this feature would not work for some servers.",
-          "enabled": false,
-          "time": 3600,
-          "cost": 0
-        }
+        "overresourcessuspend": false
       },
       "oauth2": {
         "_comment": "Go to https://discord.dev/ and create an application to set these up.",
-        "id": "id of the application",
-        "secret": "secret of the application",
-        "link": "link of website wihtout /callback",
+        "id": "ID",
+        "secret": "Secret",
+        "link": "http://example.sryden.cloud:8000",
         "callbackpath": "/callback",
         "prompt": true,
-
         "ip": {
           "trust x-forwarded-for": true,
           "block": [],
-
-          "_comment": "'duplicate check' is an anti-alt check by IPs.",
-          "duplicate check": false,
-
-          "_comment2": "'cookie alt check' is an anti-alt check by cookies.",
-          "cookie alt check": true
+          "duplicate check": true
         }
       },
       "ratelimits": {
-        "enabled": true,
-
-        "trust x-forwarded-for": true,
-
-        "requests": 2,
-        "per second": 20
+        "/callback": 2,
+        "/create": 1,
+        "/delete": 1,
+        "/modify": 1,
+        "/updateinfo": 1,
+        "/setplan": 2,
+        "/admin": 1,
+        "/regen": 1,
+        "/renew": 1,
+        "/api/userinfo": 1
       },
       "packages": {
         "default": "default",
@@ -125,25 +96,24 @@
             "cpu": 100,
             "servers": 1
           }
+        },
+        "rolePackages": {
+          "note": "This allows you to set a different plan to people who have a specific role however this requires the Discord bot to be configured and functioning",
+          "roleServer": "Server ID",
+          "roles": {
+            "Role ID": "Package Name"
+          }
         }
       },
       "locations": {
         "1": {
-          "name": "Example Location 1",
-
-          "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
-          "package": null
-        },
-        "2": {
-          "name": "Example Location 2",
-
-          "_comment": "Make 'package' be null to allow anyone with enough resources in their plan to create a server with this location. Also, make the 'package' variable an array, like [], with the location names with quotes to make a user be required to have a plan in order to use the package.",
+          "name": "Default Location",
           "package": null
         }
       },
       "eggs": {
        "paper": {
-          "display": "Minecraft Java",
+          "display": "Minecraft Java | Paper/Spigot",
           "minimum": {
             "ram": 1024,
             "disk": 1024,
@@ -169,7 +139,7 @@
           }
         },
         "bungeecord": {
-          "display": "Minecraft BungeeCord",
+          "display": "Minecraft Java | BungeeCord",
           "minimum": {
             "ram": 512,
             "disk": 512,
@@ -193,47 +163,157 @@
               "backups": 4
             }
           }
+        },
+        "pmmp": {
+          "display": "Minecraft Bedrock | Pocketmine",
+          "note": "Please upload the Pocketmine egg from the parkervcp egg repo to the panel, then change the egg ID to the ID of the uploaded egg.",
+          "minimum": {
+            "ram": 512,
+            "disk": 512,
+            "cpu": 75
+          },
+          "maximum": {
+            "ram": null,
+            "disk": null,
+            "cpu": null
+          },
+          "info": {
+            "egg": 19,
+            "docker_image": "quay.io/parkervcp/pterodactyl-images:base_debian",
+            "startup": "./bin/php7/bin/php ./PocketMine-MP.phar --no-wizard --disable-ansi",
+            "environment": {
+              "GITHUB_PACKAGE": "pmmp/PocketMine-MP",
+              "MATCH": "PocketMine-MP.phar",
+              "VERSION": "latest"
+            },
+            "feature_limits": {
+              "databases": 4,
+              "backups": 4
+            }
+          }
+        },
+        "bedrock": {
+          "display": "Minecraft Bedrock | Vanilla",
+          "note": "Please upload the Vanilla egg from the parkervcp egg repo to the panel, then change the egg ID to the ID of the uploaded egg.",
+          "minimum": {
+            "ram": 512,
+            "disk": 512,
+            "cpu": 75
+          },
+          "maximum": {
+            "ram": null,
+            "disk": null,
+            "cpu": null
+          },
+          "info": {
+            "egg": 18,
+            "docker_image": "quay.io/parkervcp/pterodactyl-images:base_debian",
+            "startup": "./bedrock_server",
+            "environment": {
+              "SERVERNAME": "Halex Bedrock Server",
+              "GAMEMODE": "survival",
+              "DIFFICULTY": "easy",
+              "CHEATS": "true",
+              "LD_LIBRARY_PATH": ".",
+              "BEDROCK_VERSION": "latest"
+            },
+            "feature_limits": {
+              "databases": 4,
+              "backups": 4
+            }
+          }
         }
       },
       "coins": {
-        "enabled": false,
+        "enabled": true,
         "store": {
           "_comment": "The cost and per is not intended to used with 0. This is not intended to sell resources for coins. Make sure coins are enabled too, or else there can be errors.",
-          "enabled": false,
+          "enabled": true,
           "ram": {
             "cost": 100,
-            "per": 1
+            "per": 100
           },
           "disk": {
             "cost": 100,
-            "per": 1
+            "per": 100
           },
           "cpu": {
             "cost": 100,
-            "per": 1
+            "per": 100
           },
           "servers": {
             "cost": 100,
-            "per": 1
+            "per": 100
           }
         }
       }
     },
-    "arcio": {	
-      "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",	
-      "enabled": false,	
-      "widgetid": "This usually a 6 digit ID that you can find on Arc Installation page",	
-      "afk page": {	
-        "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",	
-        "_comment2": "Make sure coins are enabled if you choose to enable this option!",	
-        "enabled": false,	
-        "_comment3": "If you change the path, you need to restart for it to take full effect.",	
-        "path": "afkwspath",	
-        "_comment4": "This afk page will give the users [coins variable] coins every [every variable] seconds.",	
-        "every": 60,	
-        "_comment5": "The coins variable is meant to not be under 1. There may be bugs if the coins variable is less than 1.",	
-        "coins": 1
-      }	
+    "arcio": {
+      "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",
+      "enabled": true,
+      "show": true,
+      "widgetid": "none",
+      "afk page": {
+        "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",
+        "_comment2": "Make sure coins are enabled if you choose to enable this option!",
+        "enabled": true,
+        "_comment3": "If you change the path, you need to restart for it to take full effect.",
+        "path": "afkwspath",
+        "_comment4": "This afk page will give the users [coins variable] coins every [every variable] seconds.",
+        "every": 15,
+        "_comment5": "The coins variable is meant to not be under 1. There may be bugs if the coins variable is less than 1.",
+        "coins": 0.10
+      }
     }
+  },
+  "whitelist": {
+    "note": "This allows only specific people to be able to use the dashboard",
+    "status": false,
+    "users": [
+      "User ID"
+    ]
+  },
+  "renewals": {
+    "note": "The cost is the amount of coins required to renew, and the delay is the amount of days before they need to renew",
+    "status": false,
+    "cost": 150,
+    "delay": 14
+  },
+  "recaptcha": {
+    "note": "THIS IS ABSOLUTELY REQUIRED, Go here and generate the keys: https://www.google.com/recaptcha/admin/",
+    "sitekey": "Recaptcha Sitekey",
+    "secret": "Recaptcha Secret"
+  },
+  "logging": {
+    "status": false,
+    "webhook": "Webhook URL",
+    "actions": {
+      "user": {
+        "signup": true,
+        "create server": true,
+        "gifted coins": true,
+        "modify server": true,
+        "buy servers": true,
+        "buy ram": true,
+        "buy cpu": true,
+        "buy disk": true
+      }, 
+      "admin": {
+        "set coins": true,
+        "add coins": true,
+        "set resources": true,
+        "set plan": true,
+        "create coupon": true,
+        "revoke coupon": true,
+        "remove account": true,
+        "view ip": true
+      }
+    }
+  },
+  "antivpn": {
+    "note": "For antivpn to work, generate an apikey on https://proxycheck.io/",
+    "status": false,
+    "APIKey": "Proxycheck APIKey",
+    "whitelistedIPs": ["IP address"]
   }
 }

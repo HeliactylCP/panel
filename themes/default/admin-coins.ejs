@@ -12,8 +12,6 @@
         <!-- partial -->
         <div class="main-panel">
           <div style="background-color: #111319" class="content-wrapper">
-           <h2>Admin</h2>
-           <p class="text-gray">Use Heliactyl's admin settings.</p>
             <% if (req.query.err) { %>
               <% if (req.query.err !== "none") { %>
                 <div style="border-radius: 15px;" class="alert">
@@ -48,43 +46,34 @@
 					Success! You have created a coupon code with the name of: <%= req.query.code %>
 					</div>
 				    <% } %>
+           <h2>Coins</h2>
+           <p class="text-gray">Change the coins of users.</p>
             <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
+              <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Heliactyl Version</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                      <p id="latestversion"><span>Fetching...</span></p>
-                    </form>
+                    <h4 class="card-title">Set user's coins</h4>
+                                    <form action="/setcoins">
+                                        <label for="id">Discord ID:</label>
+                                        <input style="border-radius: 15px; padding: 8px;" class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input style="border-radius: 15px; padding: 8px;" class="form-control" name="coins" type="number"><br><br>
+                                        <button class="btn btn-primary btn-lg" type="submit">Set</button>
+                                    </form>
                   </div>
                 </div>
               </div>
-            </div>
-            </div>
-                                    <script>
-                                        fetch("https://heliactyl.github.io/Heliactyl/")
-                                            .then(res => Promise.resolve(res.json()).then(ver => {
-                                                let currentver = "<%= settings.version.replace(/"/g, `\\\\"`) %>";
-                                                if (ver.version == currentver) {
-                                                    document.getElementById("latestversion").innerHTML = `<span>You are running Heliactyl version <code style="color: #007fcc" >v${currentver}</code>. Heliactyl is up-to-date!</span>`;
-                                                } else if (ver.prerelease == currentver) {
-                                                    document.getElementById("latestversion").innerHTML = `<span>You are running Heliactyl version <code style="color: #007fcc">v${currentver}</code>. Heliactyl is up-to-date!</span>`;
-                                                } else {
-                                                    document.getElementById("latestversion").innerHTML = `<span>Heliactyl is <b>not up-to-date!</b> The latest version is <code style="color: #007fcc" >v${ver.version}</code> and you are currently running version <code style="color: #007fcc" >v<%= settings.version %></code>.</span>`;
-                                                };
-                                            }));
-                                    </script>
-            <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Heliactyl Information</h4>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                      <a href="https://github.com/Heliactyl/Heliactyl/" class="btn btn-primary btn-lg">GitHub</a> <a href="https://discord.gg/pZGwG4Mazk" class="btn btn-primary btn-lg">Discord</a>
-                    </form>
-                  </div>
+                    <h4 class="card-title">Add user's coins</h4>
+                                    <form action="/addcoins">
+                                        <label for="id">Discord ID:</label>
+                                        <input style="border-radius: 15px; padding: 8px;" class="form-control" name="id" placeholder="0000000000000000"><br><br>
+                                        <label for="coins">Coins:</label>
+                                        <input style="border-radius: 15px; padding: 8px;" class="form-control" name="coins" type="number"><br><br>
+                                        <button class="btn btn-primary btn-lg" type="submit">Set</button>
+                                    </form>
                 </div>
               </div>
             </div>

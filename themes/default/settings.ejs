@@ -5,30 +5,29 @@
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <%- include('./components/sidebar') %>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js" integrity="sha512-iJh0F10blr9SC3d0Ow1ZKHi9kt12NYa+ISlmCdlCdNZzFwjH1JppRTeAnypvUez01HroZhAmP4ro4AvZ/rG0UQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
         <%- include('./components/topnav') %>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
+          <div style="background-color: #111319" class="content-wrapper">
+           <h2>Account Settings</h2>
+           <p class="text-gray">View your login information & reset your password.</p>
             <% if (req.session.newaccount || req.session.password) { %>
-            <div class="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div style="background-color: #ffca00; color: #121212; border-radius: 15px" class="alert">
+                <div class="alertbtn"><a class="btn btn-warning btn-clipboard" style="background-color: #ddb100; color: black !important" data-clipboard-action="copy" data-clipboard-target="#clipboardExample2">Copy password</a></div>
                 <% if (req.session.newaccount) { %>
                     A new account has been created for you on the Pterodactyl Panel.<br>
                 <% } %>
                 <% if (req.session.password) { %>
-                    Your <% if (!req.session.newaccount) { %>new <% } %>password is <%= req.session.password %> ! Make sure to keep this password in a safe place.
+                    The password was changed to <span id="clipboardExample2"><%= req.session.password %></span>, If you are unable to login, please ensure that the password is as displayed here.
                 <% } else { %>
                     Please check your email to set your password.
                 <% } %>
             </div>
         <% } %>
-            <div class="page-header">
-              <h3 class="page-title"> Settings </h3>
-            </div>
-        <%- include('./components/ads') %>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
@@ -36,21 +35,29 @@
                     <form class="forms-sample">
               	      <div class="form-group">
                         <label for="exampleInputUsername1">Email</label>
-                        <input type="email" class="form-control" style="color: #9e9e9e;" value="<%= pterodactyl.email %>" placeholder="<%= pterodactyl.email %>" disabled>
+                        <input style="border-radius: 15px;" type="email" class="form-control" value="<%= pterodactyl.email %>" placeholder="<%= pterodactyl.email %>" disabled>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputUsername1">Username</label>
-                        <input type="text" class="form-control" style="color: #9e9e9e;" value="<%= pterodactyl.username %>" placeholder="<%= pterodactyl.username %>" disabled>
+                        <input style="border-radius: 15px;" type="text" class="form-control" value="<%= pterodactyl.username %>" placeholder="<%= pterodactyl.username %>" disabled>
                       </div>
-              		  <a role="button" class="btn btn-primary btn-fw" href="/regen">Regenerate Password</a><br><br>
-              		  <a role="button" class="btn btn-primary btn-light" href="/updateinfo">Refresh Account Info</a>
-              		  <br><br><br><br>
+              		  <a role="button" class="btn btn-primary btn-lg" href="/regen">Reset Account Password</a>
+              		  <a role="button" class="btn btn-primary btn-lg" href="/updateinfo">Refresh Account Data</a>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+    <script>
+    var clipboard = new Clipboard('.btn-clipboard');
+    clipboard.on('success', function(e) {
+      console.log(e);
+    });
+    clipboard.on('error', function(e) {
+      console.log(e);
+    });
+    </script>
           <!-- content-wrapper ends -->
           <%- include('./components/footer') %>
         </div>
@@ -71,5 +78,17 @@
     <script src="/assets/js/typeahead.js"></script>
     <script src="/assets/js/select2.js"></script>
     <!-- End custom js for this page -->
+    <style>
+.alertbtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+   </style>
   </body>
 </html>

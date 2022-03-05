@@ -16074,14 +16074,14 @@ code {
 
 .badge-outline-green {
   color: white;
-  background-color: #00d435;
+  background-color: #EA21CE;
   border: 1px; 
   transition-duration: 0.1s;
 }
 
 .badge-outline-green:hover {
   color: white;
-  background-color: #009425;
+  background-color: #EA21CE;
   border: 1px;
   transition-duration: 0.1s;
 }
@@ -16119,6 +16119,9 @@ code {
 .badge-outline-dark {
   color: #0d0d0d;
   border: 1px solid #0d0d0d; }
+
+.btn-primary {
+  border-radius: 12px; }
 
 /* Buttons */
 .btn, .fc button, .ajax-upload-dragdrop .ajax-file-upload, .swal2-modal .swal2-buttonswrapper .swal2-styled, .swal2-modal .swal2-buttonswrapper .swal2-styled.swal2-confirm, .swal2-modal .swal2-buttonswrapper .swal2-styled.swal2-cancel, .wizard > .actions a {
@@ -16621,7 +16624,7 @@ code {
 
 /* Cards */
 .card {
-  border-radius: 0.25rem; }
+  border-radius: 0.80rem; }
   .card .card-body {
     padding: 1.75rem 1.5625rem; }
     .card .card-body + .card-body {
@@ -16646,7 +16649,7 @@ code {
   .card.card-outline-danger {
     border: 1px solid #fc424a; }
   .card.card-rounded {
-    border-radius: 5px; }
+    border-radius: 15px; }
   .card.card-faded {
     background: #b5b0b2;
     border-color: #b5b0b2; }
@@ -16662,7 +16665,7 @@ code {
       height: 100%; }
   .card.corona-gradient-card {
     background-image: linear-gradient(to left, #d41459, #911a6c);
-    border-radius: 6px; }
+    border-radius: 15px; }
     .card.corona-gradient-card .gradient-corona-img {
       height: 85px; }
       @media (max-width: 576px) {
@@ -16985,7 +16988,7 @@ code {
   .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .jsgrid .jsgrid-table .jsgrid-filter-row input:focus[type=number], .select2-container--default .select2-selection--single:focus, .select2-container--default .select2-selection--single .select2-search__field:focus, .typeahead:focus,
   .tt-query:focus,
   .tt-hint:focus {
-    border: 1px solid rgba(71, 164, 71, 0.5);
+    border: 1px solid #0090e7;
     background-color: #2A3038; }
   .form-control.form-control-lg, .form-control-lg.asColorPicker-input, .dataTables_wrapper select.form-control-lg, .jsgrid .jsgrid-table .jsgrid-filter-row input.form-control-lg[type=text],
   .jsgrid .jsgrid-table .jsgrid-filter-row select.form-control-lg, .jsgrid .jsgrid-table .jsgrid-filter-row input.form-control-lg[type=number], .select2-container--default .form-control-lg.select2-selection--single, .select2-container--default .select2-selection--single .form-control-lg.select2-search__field, .form-control-lg.typeahead,

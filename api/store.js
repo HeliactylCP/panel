@@ -1,14 +1,14 @@
 const indexjs = require("../index.js");
-const arciotext = (require("./arcio.js")).text;
 const adminjs = require("./admin.js");
 const fs = require("fs");
 const ejs = require("ejs");
-let newsettings = require('../settings.json')
+const log = require('../misc/log')
+
 module.exports.load = async function(app, db) {
-  let maxram = newsettings.limits.ram;
-  let maxcpu = newsettings.limits.cpu;
-  let maxservers = newsettings.limits.servers;
-  let maxdisk = newsettings.limits.disk;
+  let maxram = null;
+  let maxcpu = null;
+  let maxservers = null;
+  let maxdisk = null;
   app.get("/buyram", async (req, res) => {
     let newsettings = await enabledCheck(req, res);
     if (newsettings) {
@@ -31,7 +31,7 @@ module.exports.load = async function(app, db) {
       let ramcap = await db.get("ram-" + req.session.userinfo.id);
       ramcap = ramcap ? ramcap : 0;
         
-      if (ramcap + amount > 4) return res.redirect(failedcallback + "?err=MAXRAMEXCEETED");
+      if (ramcap + amount > 32) return res.redirect(failedcallback + "?err=MAXRAMEXCEETED");
 
       let per = newsettings.api.client.coins.store.ram.per * amount;
       let cost = newsettings.api.client.coins.store.ram.cost * amount;
@@ -40,7 +40,7 @@ module.exports.load = async function(app, db) {
 
       let newusercoins = usercoins - cost;
       let newram = ramcap + amount;
-      if(newram > maxram) return res.send("You reached max ram limit!");
+      if(newram > 32000) return res.send("You reached max ram limit!");
       if (newusercoins == 0) {
         await db.delete("coins-" + req.session.userinfo.id);
         await db.set("ram-" + req.session.userinfo.id, newram);
@@ -66,6 +66,8 @@ module.exports.load = async function(app, db) {
       }
 
       adminjs.suspend(req.session.userinfo.id);
+
+      log(`Resources Purchased`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${per}\MB ram from the store for \`${cost}\` Credits.`)
 
       res.redirect((theme.settings.redirect.purchaseram ? theme.settings.redirect.purchaseram : "/") + "?err=none");
     }
@@ -93,7 +95,7 @@ module.exports.load = async function(app, db) {
       let diskcap = await db.get("disk-" + req.session.userinfo.id);
       diskcap = diskcap ? diskcap : 0;
         
-      if (diskcap + amount > 80) return res.redirect(failedcallback + "?err=MAXDISKEXCEETED");
+      if (diskcap + amount > 32000) return res.redirect(failedcallback + "?err=MAXDISKEXCEETED");
 
       let per = newsettings.api.client.coins.store.disk.per * amount;
       let cost = newsettings.api.client.coins.store.disk.cost * amount;
@@ -102,7 +104,7 @@ module.exports.load = async function(app, db) {
 
       let newusercoins = usercoins - cost;
       let newdisk = diskcap + amount;
-      if(newdisk > maxdisk) return res.send("You reached max disk limit!");
+      if(newdisk > 32000) return res.send("You reached max disk limit!");
       if (newusercoins == 0) {
         await db.delete("coins-" + req.session.userinfo.id);
         await db.set("disk-" + req.session.userinfo.id, newdisk);
@@ -128,6 +130,8 @@ module.exports.load = async function(app, db) {
       }
 
       adminjs.suspend(req.session.userinfo.id);
+
+      log(`Resources Purchased`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${per}MB disk from the store for \`${cost}\` Credits.`)
 
       res.redirect((theme.settings.redirect.purchasedisk ? theme.settings.redirect.purchasedisk : "/") + "?err=none");
     }
@@ -155,7 +159,7 @@ module.exports.load = async function(app, db) {
       let cpucap = await db.get("cpu-" + req.session.userinfo.id);
       cpucap = cpucap ? cpucap : 0;
         
-      if (cpucap + amount > 2) return res.redirect(failedcallback + "?err=MAXCPUEXCEETED");
+      if (cpucap + amount > 8) return res.redirect(failedcallback + "?err=MAXCPUEXCEETED");
 
       let per = newsettings.api.client.coins.store.cpu.per * amount;
       let cost = newsettings.api.client.coins.store.cpu.cost * amount;
@@ -164,7 +168,7 @@ module.exports.load = async function(app, db) {
 
       let newusercoins = usercoins - cost;
       let newcpu = cpucap + amount;
-      if(newcpu > maxcpu) return res.send("Reached max CPU limit!");
+      if(newcpu > 320000) return res.send("Reached max CPU limit!");
       if (newusercoins == 0) {
         await db.delete("coins-" + req.session.userinfo.id);
         await db.set("cpu-" + req.session.userinfo.id, newcpu);
@@ -190,6 +194,8 @@ module.exports.load = async function(app, db) {
       }
 
       adminjs.suspend(req.session.userinfo.id);
+
+      log(`Resources Purchased`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${per}% CPU from the store for \`${cost}\` Credits.`)
 
       res.redirect((theme.settings.redirect.purchasecpu ? theme.settings.redirect.purchasecpu : "/") + "?err=none");
     }
@@ -217,7 +223,7 @@ module.exports.load = async function(app, db) {
       let serverscap = await db.get("servers-" + req.session.userinfo.id);
       serverscap = serverscap ? serverscap : 0;
         
-      if (serverscap + amount > 4) return res.redirect(failedcallback + "?err=MAXSERVERSEXCEETED");
+      if (serverscap + amount > 16) return res.redirect(failedcallback + "?err=MAXSERVERSEXCEETED");
 
       let per = newsettings.api.client.coins.store.servers.per * amount;
       let cost = newsettings.api.client.coins.store.servers.cost * amount;
@@ -226,7 +232,7 @@ module.exports.load = async function(app, db) {
 
       let newusercoins = usercoins - cost;
       let newservers = serverscap + amount;
-      if(newservers > maxservers) return res.send("Reached max server limit!");
+      if(newservers > 320000) return res.send("Reached max server limit!");
       if (newusercoins == 0) {
         await db.delete("coins-" + req.session.userinfo.id);
         await db.set("servers-" + req.session.userinfo.id, newservers);
@@ -253,6 +259,8 @@ module.exports.load = async function(app, db) {
 
       adminjs.suspend(req.session.userinfo.id);
 
+      log(`Resources Purchased`, `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${per} Slots from the store for \`${cost}\` Credits.`)
+
       res.redirect((theme.settings.redirect.purchaseservers ? theme.settings.redirect.purchaseservers : "/") + "?err=none");
     }
   });
@@ -272,7 +280,7 @@ module.exports.load = async function(app, db) {
         console.log(err);
         return res.send("An error has occured while attempting to load this page. Please contact an administrator to fix this.");
       };
-      res.status(404);
+      res.status(200);
       res.send(str);
     });
     return null;

@@ -11,11 +11,12 @@
         <%- include('./components/topnav') %>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
+          <div style="background-color: #111319" class="content-wrapper">
+           <h2>Resources Store</h2>
+           <p class="text-gray">Buy extra resources to upgrade your server.</p>
             <% if (req.query.err) { %>
               <% if (req.query.err !== "none") { %>
-                <div class="alert">
-                  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <div style="border-radius: 15px;" class="alert">
                   <% if (req.query.err == "CANNOTAFFORD") { %>
                     Insufficient funds.
                   <% } else if (req.query.err == "MAXCPUEXCEETED") { %>
@@ -29,20 +30,12 @@
                   <% } %>
                 </div>
               <% } else if (req.query.err == "none") { %>
-                <div class="alert" style="background-color: #00d415;">
+                <div class="alert" style="background-color: #00d415; border-radius: 15px;">
                   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                   Success!
                 </div>
               <% } %>
             <% } %>
-            <div class="page-header">
-              <h3 class="page-title"> Your balance: <span id="balance"></span></h3>
-            </div>
-            <script>
-              let balance = document.getElementById("balance")
-              balance.textContent = Math.floor(<%= coins %> * 100) / 100
-            </script>
-        <%- include('./components/ads') %>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
@@ -50,12 +43,12 @@
                     <form class="forms-sample" action="/buycpu">
                       <div class="form-group">
                         <label style="font-weight: bold;">CPU</label><BR>
-                        <select name="amount" class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;">
+                        <select name="amount" class="form-control" style="border-radius: 15px; padding: 8px;">
                           <option value=1><%= settings.api.client.coins.store.cpu.per %>% CPU - <%= settings.api.client.coins.store.cpu.cost %> coins</option>
                           <option value=2><%= settings.api.client.coins.store.cpu.per * 2 %>% CPU - <%= settings.api.client.coins.store.cpu.cost * 2 %> coins</option>
                         </select>
                       </div>
-                      <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Purchase</button>
+                      <button class="btn btn-primary btn-lg" type="submit">Purchase</button>
                     </form>
                   </div>
                 </div>
@@ -66,14 +59,14 @@
                     <form class="forms-sample" action="/buyram">
                       <div class="form-group">
                         <label style="font-weight: bold;">RAM</label><BR>
-                        <select name="amount" class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;">
+                        <select name="amount" class="form-control" style="border-radius: 15px; padding: 8px;">
                           <option value=1><%= settings.api.client.coins.store.ram.per %>MB RAM - <%= settings.api.client.coins.store.ram.cost %> coins</option>
                           <option value=2><%= settings.api.client.coins.store.ram.per * 2 %>MB RAM - <%= settings.api.client.coins.store.ram.cost * 2 %> coins</option>
                           <option value=3><%= settings.api.client.coins.store.ram.per * 3 %>MB RAM - <%= settings.api.client.coins.store.ram.cost * 3 %> coins</option>
                           <option value=4><%= settings.api.client.coins.store.ram.per * 4 %>MB RAM - <%= settings.api.client.coins.store.ram.cost * 4 %> coins</option>
                         </select>
                       </div>
-                      <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Purchase</button>
+                      <button class="btn btn-primary btn-lg" type="submit">Purchase</button>
                     </form>
                   </div>
                 </div>
@@ -84,7 +77,7 @@
                     <form class="forms-sample" action="/buydisk">
                       <div class="form-group">
                         <label style="font-weight: bold;">Disk</label><BR>
-                        <select name="amount" class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;">
+                        <select name="amount" class="form-control" style="border-radius: 15px; padding: 8px;">
                           <option value=1><%= settings.api.client.coins.store.disk.per %>MB Disk - <%= settings.api.client.coins.store.disk.cost %> coins</option>
                           <option value=2><%= settings.api.client.coins.store.disk.per * 2 %>MB Disk - <%= settings.api.client.coins.store.disk.cost * 2 %> coins</option>
                           <option value=3><%= settings.api.client.coins.store.disk.per * 3 %>MB Disk - <%= settings.api.client.coins.store.disk.cost * 3 %> coins</option>
@@ -92,7 +85,7 @@
                           <option value=5><%= settings.api.client.coins.store.disk.per * 5 %>MB Disk - <%= settings.api.client.coins.store.disk.cost * 5 %> coins</option>
                         </select>
                       </div>
-                      <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Purchase</button>
+                      <button class="btn btn-primary btn-lg" type="submit">Purchase</button>
                     </form>
                   </div>
                 </div>
@@ -103,14 +96,14 @@
                     <form class="forms-sample" action="/buyservers">
                       <div class="form-group">
                         <label style="font-weight: bold;">Servers</label><BR>
-                        <select name="amount" class="btn btn-secondary dropdown-toggle" style="background-color: #2a3038; border: 1px solid #2c2e33; color: #e4eaec;">
+                        <select name="amount" class="form-control" style="border-radius: 15px; padding: 8px;">
                           <option value=1><%= settings.api.client.coins.store.servers.per %> Server - <%= settings.api.client.coins.store.servers.cost %> coins</option>
                           <option value=2><%= settings.api.client.coins.store.servers.per * 2 %> Servers - <%= settings.api.client.coins.store.servers.cost * 2 %> coins</option>
                           <option value=3><%= settings.api.client.coins.store.servers.per * 3 %> Servers - <%= settings.api.client.coins.store.servers.cost * 3 %> coins</option>
                           <option value=4><%= settings.api.client.coins.store.servers.per * 4 %> Servers - <%= settings.api.client.coins.store.servers.cost * 4 %> coins</option>
                         </select>
                       </div>
-                      <button class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" type="submit">Purchase</button>
+                      <button class="btn btn-primary btn-lg" type="submit">Purchase</button>
                     </form>
                   </div>
                 </div>

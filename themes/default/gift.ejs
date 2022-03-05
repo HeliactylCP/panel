@@ -2,6 +2,7 @@
 <html lang="en">
   <%- include('./components/head') %>
   <body>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <%- include('./components/sidebar') %>
@@ -10,43 +11,34 @@
         <!-- partial:partials/_navbar.html -->
         <%- include('./components/topnav') %>
         <!-- partial -->
-        <div class="main-panel">
-          <div class="content-wrapper">
+        <div style="background-color: #111319" class="main-panel">
+          <div style="background-color: #111319" class="content-wrapper">
+
+           <h2>Gift Coins</h2>
+           <p class="text-gray">Gift others your coins.</p>
             <% if (req.query.err) { %>
-              <div class="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <% if (req.query.err == "MISSINGID") { %>
-                    You have not provided the Discord user ID.
-                <% } else if (req.query.err == "INVALIDID") { %>
-                    You have provided a Discord user ID that does not exist, or has not signed up on the dashboard.
-                <% } else if (req.query.err == "RAMSIZE") { %>
-                    The RAM number cannot be less than 100 and must be above 999999999999999.
-                <% } else if (req.query.err == "TOMUCHRAM") { %>
-                    You are gifting more RAM then you can gift!
-                <% } else if (req.query.err == "DISKSIZE") { %>
-                    The disk number cannot be less than 100 and must be above 999999999999999.
-                <% } else if (req.query.err == "TOMUCHDISK") { %>
-                    You are gifting more disk then you can gift!
-                <% } else if (req.query.err == "CPUSIZE") { %>
-                    The CPU number cannot be less than 10 and must be above 999999999999999.
-                <% } else if (req.query.err == "TOMUCHCPU") { %>
-                    You are gifting more CPU then you can gift!
-                <% } else if (req.query.err == "SERVERSIZE") { %>
-                    The servers number cannot be less than 1 and must be above 999999999999999.
-                <% } else if (req.query.err == "TOMUCHSERVERS") { %>
-                    You are gifting more servers then you can gift!
+              <div style="border-radius: 15px;" class="alert">
+                <% if (req.query.err == "MISSINGFIELDS") { %>
+                    You must fill out all fields in the form.
+                <% } else if (req.query.err == "CANNOTGIFTYOURSELF") { %>
+                    You cannot gift coins to yourself -_-
+                <% } else if (req.query.err == "MUSTCOMPLETECAPTCHA") { %>
+                    You must complete the captcha to prove you are human!
+                <% } else if (req.query.err == "INVALIDCAPTCHARESPONSE") { %>
+                    You submitted an invalid captcha response, try again.
+                <% } else if (req.query.err == "CANTAFFORD") { %>
+                    You do not have enough coins to gift this amount.
+                <% } else if (req.query.err == "USERDOESNTEXIST") { %>
+                    No user with the ID you tried to send coins to has logged in to the dashboard.
+                <% } else if (req.query.err == "TOOLOWCOINS") { %>
+                    You must gift 1 or more coin.
                 <% } %>
               </div>
-            <% } else if (req.query.err == "none") { %>
-              <div class="alert" style="background-color: #00d415;">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                Success!
+            <% } else if (req.query.success) { %>
+              <div class="alert" style="background-color: #007fcc; border-radius: 15px">
+                Success! The coins have been transferred
               </div>
             <% } %>
-            <div class="page-header">
-              <h3 class="page-title"> Gift Resources </h3>
-            </div>
-                   <%- include('./components/ads') %>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
@@ -54,28 +46,27 @@
                     <form class="forms-sample">
                       <div class="form-group">
                         <label for="InputID">Discord ID</label>
-                        <input type="number" class="form-control" id="InputID" placeholder="Enter ID here">
+                        <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputID" placeholder="Enter the Discord ID of the user you are gifting to here">
                       </div>
                       <div class="form-group">
-                        <label for="InputCPU">CPU</label>
-                        <input type="number" class="form-control" id="InputCPU" placeholder="10">
+                        <label for="InputCoins">Credits</label>
+                        <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputCoins" placeholder="100">
                       </div>
-                      <div class="form-group">
-                        <label for="InputRAM">RAM</label>
-                        <input type="number" class="form-control" id="InputRAM" placeholder="100">
-                      </div>
-                      <div class="form-group">
-                        <label for="InputDisk">Disk</label>
-                        <input type="number" class="form-control" id="InputDisk" placeholder="100">
-                      </div>
-                      <div class="form-group">
-                        <label for="InputDisk">Servers</label>
-                        <input type="number" class="form-control" id="InputServers" placeholder="2">
-                      </div>
-                     <a role="button" class="badge badge-outline-green" style="padding: 12px 30px; font-size: 15px;" href="javascript: submitGift()">Gift</a>
-                      <br>
-                      <p>The gift exploit is patched in this version of Heliactyl, there is no need to worry (:</p>
+                     <a role="button" class="btn btn-primary btn-lg" href="javascript: submitGift()">Gift</a>
                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <form class="forms-sample">
+                      <div class="form-group">
+                        <p>Please complete this captcha to prove you're human and help protect our services from abuse!</p>
+                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -95,11 +86,9 @@
     <script>
       async function submitGift() {
         let id = encodeURIComponent(document.getElementById("InputID").value);
-        let ram = encodeURIComponent(document.getElementById("InputRAM").value);
-        let disk = encodeURIComponent(document.getElementById("InputDisk").value);
-        let cpu = encodeURIComponent(document.getElementById("InputCPU").value);
-        let servers = encodeURIComponent(document.getElementById("InputServers").value);
-        document.location.href = `/giftres?id=${id}&ram=${ram}&disk=${disk}&cpu=${cpu}&servers=${servers}`;
+        let coins = encodeURIComponent(document.getElementById("InputCoins").value);
+        let captcha = encodeURIComponent(grecaptcha.getResponse());
+        document.location.href = `/giftcoins?id=${id}&coins=${coins}&captcha=${captcha}`;
       };
     </script>
     <!-- End plugin js for this page -->

@@ -2,11 +2,6 @@
 <html lang="en">
   <%- include('./components/head') %>
   <body>
-    <script>
-      let messages =["I think this page went with falix's data...", "Hm? I couldnt find this page on the server.", "Its a long way out here, are you lost?", "Mate this aint where you should be goin, this place dosent exist.", "Time to go back to safety!", "Oh sh*t! Idk where im going!"]
-      let m = messages[Math.floor(Math.random() * messages.length)]
-      document.getElementById("404text").innerHTML = m;
-      </script>
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center text-center error-page bg-primary">
@@ -18,12 +13,12 @@
                 </div>
                 <div class="col-lg-6 error-page-divider text-lg-left pl-lg-4">
                   <h2>ERROR!</h2>
-                  <h3 class="font-weight-light" id="404text">This page was not found.</h3>
+                  <h3 class="font-weight-light">Uh oh! This page was not found.</h3>
                 </div>
               </div>
               <div class="row mt-5">
                 <div class="col-12 text-center mt-xl-2">
-                  <a class="text-white font-weight-medium" href="/dashboard">Back to Dashboad</a>
+                  <a class="text-white font-weight-medium" href="/dashboard">Back to Dashboard</a>
                 </div>
               </div>
             </div>

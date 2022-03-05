@@ -4,9 +4,9 @@
     "redirect": {
         "callback": "/dashboard",
         "logout": "/",
-       	"createserver": "/dashboard",
-        "deleteserver": "/dashboard",
-        "updateservers": "/dashboard",
+       	"createserver": "/servers?err=CREATED",
+        "deleteserver": "/servers",
+        "updateservers": "/servers",
         "failedcreateserver": "/servers/new",
         "failedmodifyserver": "/servers/edit",
         "setplan": "/admin",
@@ -45,14 +45,18 @@
         "servers/new": "create.ejs",
         "servers/edit": "edit.ejs",
         "admin": "admin.ejs",
+        "admin/plans": "admin-plans.ejs",
+        "admin/resources": "admin-resources.ejs",
+        "admin/coupons": "admin-coupons.ejs",
+        "admin/coins": "admin-coins.ejs",
         "redeem": "redeem.ejs",
         "settings": "settings.ejs",
         "gift": "gift.ejs",
         "j4r": "j4r.ejs",
-        "coins": "coins.ejs",
+        "afk": "afk.ejs",
         "store": "store.ejs",
-        "privacy-policy": "privacy-policy.ejs",
-        "terms-of-service": "terms-of-service.ejs",
+        "servers": "servers.ejs",
+        "credits": "credits.ejs",
         "lv": "lv.ejs"
     },
     "mustbeloggedin": [
@@ -67,21 +71,23 @@
         "/lv"
     ],
     "mustbeadmin": [
-        "/admin"
+        "/admin",
+        "/admin/plans",
+        "/admin/resources",
+        "/admin/coupons",
+        "/admin/coins"
     ],
     "variables": {
-        "footerad": true,
-        "faviconlink": "Set a favicon here",
+        "faviconlink": "https://cdn.discordapp.com/attachments/881207010417315861/949595064554913812/Copy_of_H_35.png",
         "home": {
-            "title": "Heliactyl",
             "name": "Heliactyl",
+            "icon": "H",
+            "admin": "admin",
             "buttontext": {
                 "loggedin": {
-                    "text": "Back to Dashboard",
                     "link": "/dashboard"
                 },
                 "loggedout": {
-                    "text": "Login using Discord",
                     "link": "/login"
                 }
             }

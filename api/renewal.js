@@ -1,105 +1,104 @@
 const settings = require("../settings.json");
+const { CronJob } = require('cron')
+const getAllServers = require('../misc/getAllServers')
+const fetch = require('node-fetch')
 
-module.exports.load = async function(app, db) {
-    if (settings.api.client.allow.renewsuspendsystem.enabled == true) {
+module.exports.load = async function (app, db) {
 
-        let renewalservers = {};
-        
-        const indexjs = require("../index.js");
-        const arciotext = (require("./arcio.js")).text;
-        const fetch = require('node-fetch');
-        const fs = require('fs');
+    app.get(`/api/renewalstatus`, async (req, res) => {
+        if (!settings.renewals.status) return res.json({ error: true })
+        if (!req.query.id) return res.json({ error: true })
+        if (!req.session.pterodactyl) res.json({ error: true })
+        if (req.session.pterodactyl.relationships.servers.data.filter(server => server.attributes.id == req.query.id).length == 0) return res.json({ error: true });
 
-        setInterval(async () => {
-            for (let [id, value] of Object.entries(renewalservers)) {
-                renewalservers[id]--;
-                if (renewalservers[id] < 1) {
-                    let canpass = await indexjs.islimited();
-                    if (canpass == false) return;
-                    indexjs.ratelimits(1);
-                    await fetch(
-                        settings.pterodactyl.domain + "/api/application/servers/" + id + "/suspend",
-                        {
-                          method: "post",
-                          headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
-                        }
-                    );
-                    delete renewalservers[id];
-                }
+        const lastRenew = await db.get(`lastrenewal-${req.query.id}`)
+        if (!lastRenew) return res.json({ text: 'Disabled' })
+
+        if (lastRenew > Date.now()) return res.json({ text: 'Renewed', success: true })
+        else {
+            if ((Date.now() - lastRenew) > (settings.renewals.delay * 86400000)) {
+                return res.json({ text: 'Last chance to renew!', renewable: true })
             }
-        }, 1000);
-
-        app.get("/renew", async (req, res) => {
-            if (!req.session.pterodactyl) return res.redirect("/login");
-        
-            if (!req.query.id) return res.send("Missing id.");
-            if (!req.session.pterodactyl.relationships.servers.data.filter(server => server.attributes.id == req.query.id)) return res.send("Could not find server with that ID.");
-        
-            let theme = indexjs.get(req);
-
-
-            let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
-            if (newsettings.api.client.allow.overresourcessuspend == true) {
-                let userinfo = req.session.pterodactyl;
-                let discordid = req.session.userinfo.id;
-        
-                let packagename = await db.get("package-" + discordid);
-                let package = newsettings.api.client.packages.list[packagename ? packagename : newsettings.api.client.packages.default];
-        
-                let extra = 
-                    await db.get("extra-" + discordid) ?
-                    await db.get("extra-" + discordid) :
-                    {
-                        ram: 0,
-                        disk: 0,
-                        cpu: 0,
-                        servers: 0
-                    };
-        
-                let plan = {
-                    ram: package.ram + extra.ram,
-                    disk: package.disk + extra.disk,
-                    cpu: package.cpu + extra.cpu,
-                    servers: package.servers + extra.servers
-                }
-        
-                let current = {
-                    ram: 0,
-                    disk: 0,
-                    cpu: 0,
-                    servers: userinfo.relationships.servers.data.length
-                }
-                for (let i = 0, len = userinfo.relationships.servers.data.length; i < len; i++) {
-                    current.ram = current.ram + userinfo.relationships.servers.data[i].attributes.limits.memory;
-                    current.disk = current.disk + userinfo.relationships.servers.data[i].attributes.limits.disk;
-                    current.cpu = current.cpu + userinfo.relationships.servers.data[i].attributes.limits.cpu;
-                };
-
-                if (current.ram > plan.ram || current.disk > plan.disk || current.cpu > plan.cpu || current.servers > plan.servers) {
-                    return res.send("You could not renew this server, because your servers are exceeding your plan.");
-                };
-            };
-
-            
-            renewalservers[req.query.id] = settings.api.client.allow.renewsuspendsystem.time;
-            
-            await fetch(
-                settings.pterodactyl.domain + "/api/application/servers/" + req.query.id + "/unsuspend",
-                {
-                  method: "post",
-                  headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${settings.pterodactyl.key}` }
-                }
-            );
-        
-            return res.redirect(theme.settings.redirect.renewserver ? theme.settings.redirect.renewserver : "/");
-        });
-
-        module.exports.set = async function(id) {
-            renewalservers[id] = settings.api.client.allow.renewsuspendsystem.time;
+            const time = msToDaysAndHours((settings.renewals.delay * 86400000) - (Date.now() - lastRenew))
+            return res.json({ text: time, renewable: true })
         }
+    })
 
-        module.exports.delete = async function(id) {
-            delete renewalservers[id];
+    app.get(`/renew`, async (req, res) => {
+        if (!settings.renewals.status) return res.send(`Renewals are currently disabled.`)
+        if (!req.query.id) return res.send(`Missing ID.`)
+        if (!req.session.pterodactyl) return res.redirect(`/login`)
+        if (req.session.pterodactyl.relationships.servers.data.filter(server => server.attributes.id == req.query.id).length == 0) return res.send(`No server with that ID was found!`);
+
+        const lastRenew = await db.get(`lastrenewal-${req.query.id}`)
+        if (!lastRenew) return res.send('Disabled')
+
+        if (lastRenew > Date.now()) return res.redirect(`/dashboard`)
+
+        let coins = await db.get("coins-" + req.session.userinfo.id);
+        coins = coins ? coins : 0;
+
+        if (settings.renewals.cost > coins) return res.redirect(`/dashboard` + "?err=CANNOTAFFORDRENEWAL")
+
+        await db.set("coins-" + req.session.userinfo.id, coins - settings.renewals.cost)
+
+        const newTime = lastRenew + (settings.renewals.delay * 86400000)
+        await db.set(`lastrenewal-${req.query.id}`, newTime)
+
+        return res.redirect(`/dashboard` + `?success=RENEWED`)
+    })
+
+    new CronJob(`0 0 * * *`, () => {
+        if (settings.renewals.status) {
+            console.log('Running renewal check...')
+            getAllServers().then(async servers => {
+                for (const server of servers) {
+                    const id = server.attributes.id
+                    const lastRenew = await db.get(`lastrenewal-${id}`)
+                    if (!lastRenew) continue
+
+                    if (lastRenew > Date.now()) continue
+                    if ((Date.now() - lastRenew) > (settings.renewals.delay * 86400000)) {
+                        // Server hasn't paid for renewal and is due to get deleted (YIKES)
+                        let deletionresults = await fetch(
+                            settings.pterodactyl.domain + "/api/application/servers/" + id,
+                            {
+                                method: "delete",
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    "Authorization": `Bearer ${settings.pterodactyl.key}`
+                                }
+                            }
+                        );
+                        let ok = await deletionresults.ok;
+                        if (ok !== true) continue;
+                        console.log(`Server with ID ${id} failed renewal and was deleted.`)
+                        await db.delete(`lastrenewal-${id}`)
+                    }
+                }
+            })
+            console.log('Renewal check over!')
         }
-    }
+    }, null, true, 'Europe/London')
+        .start()
+
 };
+
+function msToDaysAndHours(ms) {
+    const msInDay = 86400000
+    const msInHour = 3600000
+
+    const days = Math.floor(ms / msInDay)
+    const hours = Math.round((ms - (days * msInDay)) / msInHour * 100) / 100
+
+    let pluralDays = `s`
+    if (days === 1) {
+        pluralDays = ``
+    }
+    let pluralHours = `s`
+    if (hours === 1) {
+        pluralHours = ``
+    }
+
+    return `${days} day${pluralDays} and ${hours} hour${pluralHours}`
+}
