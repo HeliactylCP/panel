@@ -1,5 +1,5 @@
 
-![Heliactyl](https://cdn.discordapp.com/attachments/881207010417315861/946403911567310878/Aesthetic_Phone_Wallpaper_with_Motivational_Quotes_YouTube_Channel_Art_4.png)
+![Heliactyl](https://cdn.discordapp.com/attachments/881207010417315861/949706607497977976/heliactyl.png)
 
 <hr>
 
@@ -15,11 +15,10 @@ All features:
 - Login Queue (prevent overload)
 - User System (auth, regen password, etc)
 - Store (buy resources with coins)
-- Dashboard (view resources & servers from one area)
+- Dashboard (view resources)
 - Join for Resources (join discord servers for resources)
 - Admin (set/add/remove coins & resources, create/revoke coupons)
 - API (for bots & other things)
-- Legal (tos/pp in footer & its own page)
 
 # Warning
 
