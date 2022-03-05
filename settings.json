@@ -210,7 +210,7 @@
             "docker_image": "quay.io/parkervcp/pterodactyl-images:base_debian",
             "startup": "./bedrock_server",
             "environment": {
-              "SERVERNAME": "Halex Bedrock Server",
+              "SERVERNAME": "Bedrock Server",
               "GAMEMODE": "survival",
               "DIFFICULTY": "easy",
               "CHEATS": "true",
