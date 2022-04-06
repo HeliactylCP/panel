@@ -115,19 +115,6 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <p>Please complete this captcha to prove you're human and help protect our services from abuse!</p>
-                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <!-- content-wrapper ends -->
           <%- include('./components/footer') %>
@@ -151,8 +138,7 @@
         let disk = encodeURIComponent(document.getElementById("InputDisk").value * 1024);
         let cpu = encodeURIComponent(document.getElementById("InputCPU").value * 100);
         let location = encodeURIComponent(document.getElementById("InputLoc").value);
-        let captcha = encodeURIComponent(grecaptcha.getResponse())
-        document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram}&disk=${disk}&cpu=${cpu}&location=${location}&captcha=${captcha}`;
+        document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram}&disk=${disk}&cpu=${cpu}&location=${location}`;
       };
     </script>
     <!-- End plugin js for this page -->
