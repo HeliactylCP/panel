@@ -1,13 +1,13 @@
 {
-  "version": "12.0.0",
+  "version": "12.1.0",
   "defaulttheme": "default",
   "website": {
     "port": 8000,
     "secret": "Default Secret (Change this)"
   },
   "pterodactyl": {
-    "domain": "https://dev.sryden.cloud",
-    "key": "EbaxJviVDZLC56HOqcxoFhc3BdjvwvXsQhExqFsdI9obyJBb (This is an example, I did not leak an API key)"
+    "domain": "https://example.sryden.cloud",
+    "key": "Example key (You should give the key all permissions)"
   },
   "linkvertise": {
     "userid": 69420,
@@ -251,7 +251,6 @@
     "arcio": {
       "_comment": "You can make an arc.io widget on https://arc.io. You can get money using arc.io.",
       "enabled": true,
-      "show": true,
       "widgetid": "none",
       "afk page": {
         "_comment": "This will not effect any current arc.io sessions, and will require a restart to kick everyone out of the websocket sesison.",
@@ -278,11 +277,6 @@
     "status": false,
     "cost": 150,
     "delay": 14
-  },
-  "recaptcha": {
-    "note": "THIS IS ABSOLUTELY REQUIRED, Go here and generate the keys: https://www.google.com/recaptcha/admin/",
-    "sitekey": "Recaptcha Sitekey",
-    "secret": "Recaptcha Secret"
   },
   "logging": {
     "status": false,
@@ -311,7 +305,7 @@
     }
   },
   "antivpn": {
-    "note": "For antivpn to work, generate an apikey on https://proxycheck.io/",
+    "note": "For antivpn to work, generate an apikey on https://proxycheck.io/. If you put no key, Heliactyl will disable antigen.",
     "status": false,
     "APIKey": "Proxycheck APIKey",
     "whitelistedIPs": ["IP address"]
