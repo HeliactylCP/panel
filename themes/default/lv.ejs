@@ -95,20 +95,11 @@
                     </script>
                   <script type="text/javascript">
                     function generate() {
-                      const captcha = encodeURIComponent(grecaptcha.getResponse())
-                      window.location.replace(`/lv/gen?captcha=${captcha}`)
+                      window.location.replace(`/lv/gen`)
                     }
                   </script>
               </div>
             </div>
-            </div>
-              <div class="row">
-                <div class="col-md-12 grid-margin stretch-card">
-                    <div class="card">
-                    <div class="card-body">
-                        <strong><p>Please complete this captcha to prove you're human and help protect our services from abuse!</p></strong>
-                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div> <br />
-              </div>
             </div>
             </div></div></div>
             <!-- content-wrapper ends -->
