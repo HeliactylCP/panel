@@ -3,8 +3,8 @@
 
 <hr>
 
-# Heliactyl • The best Pterodactyl client area
-Making a host and need a way for users to sign up, earn coins, manage servers? Try out Heliactyl.
+# Heliactyl • The modern client panel for Pterodactyl
+We're back on GitHub, new Heliactyl versions are releasing soon.
 
 All features:
 - Resource Management (Use it to create servers, etc)
@@ -71,6 +71,3 @@ location / {
   }
 }
 ```
-<hr>
-
-<code>© Sryden UK 2022</code>
