@@ -1,5 +1,4 @@
 const settings = require('../settings.json')
-const verifyCaptchaResponse = require('../misc/verifyCaptchaResponse')
 
 module.exports.load = async function (app, db) {
 
@@ -19,11 +18,6 @@ module.exports.load = async function (app, db) {
         if (dailyTotal && dailyTotal >= settings.linkvertise.dailyLimit) {
             return res.redirect(`/lv?err=REACHEDDAILYLIMIT`)
         }
-
-        const captcha = req.query.captcha
-        if (!captcha) return res.redirect(`/lv?err=MUSTCOMPLETECAPTCHA`)
-        const verified = await verifyCaptchaResponse(captcha)
-        if (!verified) return res.redirect(`/lv?err=INVALIDCAPTCHARESPONSE`)
 
         let referer = req.headers.referer
         if (!referer) return res.send('An error occured with your browser!')
