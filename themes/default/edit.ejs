@@ -114,19 +114,6 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <p>Please complete this captcha to prove you're human and help protect our services from abuse!</p>
-                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div>
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <% } else { %>
                 <p style="margin-left: 5%;">Could not find server with the provided ID.</p>
@@ -151,8 +138,7 @@
         let ram = encodeURIComponent(document.getElementById("InputRAM").value * 1024);
         let disk = encodeURIComponent(document.getElementById("InputDisk").value * 1024);
         let cpu = encodeURIComponent(document.getElementById("InputCPU").value * 100);
-        let captcha = encodeURIComponent(grecaptcha.getResponse())
-        document.location.href = `/modify?id=<%= req.query.id %>&ram=${ram}&disk=${disk}&cpu=${cpu}&captcha=${captcha}`;
+        document.location.href = `/modify?id=<%= req.query.id %>&ram=${ram}&disk=${disk}&cpu=${cpu}`;
       };
     </script>
     <!-- End plugin js for this page -->
