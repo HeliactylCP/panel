@@ -5,7 +5,6 @@ const adminjs = require("./admin.js");
 const fs = require("fs");
 const getPteroUser = require('../misc/getPteroUser')
 const Queue = require('../managers/Queue')
-const verifyCaptchaResponse = require('../misc/verifyCaptchaResponse')
 const log = require('../misc/log')
 
 if (settings.pterodactyl) if (settings.pterodactyl.domain) {
@@ -35,17 +34,6 @@ module.exports.load = async function (app, db) {
     if (newsettings.api.client.allow.server.create == true) {
       queue.addJob(async (cb) => {
         let redirectlink = theme.settings.redirect.failedcreateserver ?? "/"; // fail redirect link
-
-        const captcha = req.query.captcha
-        if (!captcha) {
-          cb()
-          return res.redirect(`/servers/new?err=MUSTCOMPLETECAPTCHA`)
-        }
-        const verified = await verifyCaptchaResponse(captcha)
-        if (!verified) {
-          cb()
-          return res.redirect(`/servers/new?err=INVALIDCAPTCHARESPONSE`)
-        }
 
         const cacheaccount = await getPteroUser(req.session.userinfo.id, db)
           .catch(() => {
@@ -229,15 +217,6 @@ module.exports.load = async function (app, db) {
     let newsettings = JSON.parse(fs.readFileSync("./settings.json").toString());
     if (newsettings.api.client.allow.server.modify == true) {
       if (!req.query.id) return res.send("Missing server id.");
-
-      const captcha = req.query.captcha
-      if (!captcha) {
-        return res.redirect(`/servers/edit?id=${req.query.id}&err=MUSTCOMPLETECAPTCHA`)
-      }
-      const verified = await verifyCaptchaResponse(captcha)
-      if (!verified) {
-        return res.redirect(`/servers/edit?id=${req.query.id}&err=INVALIDCAPTCHARESPONSE`)
-      }
 
       const cacheaccount = await getPteroUser(req.session.userinfo.id, db)
         .catch(() => {
