@@ -49,24 +49,11 @@
                         <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputID" placeholder="Enter the Discord ID of the user you are gifting to here">
                       </div>
                       <div class="form-group">
-                        <label for="InputCoins">Credits</label>
+                        <label for="InputCoins">Coins</label>
                         <input style="border-radius: 15px; padding: 8px;" type="number" class="form-control" id="InputCoins" placeholder="100">
                       </div>
                      <a role="button" class="btn btn-primary btn-lg" href="javascript: submitGift()">Gift</a>
                     </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <p>Please complete this captcha to prove you're human and help protect our services from abuse!</p>
-                        <div id="captcha" class="g-recaptcha" data-sitekey="<%= settings.recaptcha.sitekey %>"></div>
-                      </div>
                   </div>
                 </div>
               </div>
@@ -87,8 +74,7 @@
       async function submitGift() {
         let id = encodeURIComponent(document.getElementById("InputID").value);
         let coins = encodeURIComponent(document.getElementById("InputCoins").value);
-        let captcha = encodeURIComponent(grecaptcha.getResponse());
-        document.location.href = `/giftcoins?id=${id}&coins=${coins}&captcha=${captcha}`;
+        document.location.href = `/giftcoins?id=${id}&coins=${coins}`;
       };
     </script>
     <!-- End plugin js for this page -->
