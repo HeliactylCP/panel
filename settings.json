@@ -1,5 +1,5 @@
 {
-  "version": "12.1.0",
+  "version": "12.1.1",
   "defaulttheme": "default",
   "website": {
     "port": 8000,
@@ -10,7 +10,7 @@
     "key": "Example key (You should give the key all permissions)"
   },
   "linkvertise": {
-    "userid": 69420,
+    "userid": 00000,
     "coins": 2
   },
   "database": "sqlite://database.sqlite",
