@@ -29,6 +29,8 @@ Please do keep the footer though.
 
 [Click here to join](https://discord.gg/CSbcjeZgKM)
 
+<hr>
+
 # Install Guide (pt. 1)
 
 Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
@@ -76,6 +78,8 @@ location / {
   }
 }
 ```
+
+<hr>
 
 # Additional Configuration
 
