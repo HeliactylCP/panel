@@ -22,13 +22,18 @@ All features:
 
 # Warning
 
-We cannot force you to keep the "Powered by Heliactyl" in the footer, but please consider keeping it. It helps getting more visibility to the project and so getting better. We won't do technical support for installations without the notice in the footer.
+We cannot force you to keep the "Powered by Heliactyl" in the footer, but please consider keeping it. It helps getting more visibility to the project and so getting better. We won't do technical support for installations without the notice in the footer. We may DMCA the website in certain conditions.
+Please do keep the footer though.
+
+# Discord Server
+
+[Click here to join](https://discord.gg/CSbcjeZgKM)
 
 # Install Guide (pt. 1)
 
 Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 1. Upload the file above onto a Pterodactyl NodeJS server [Download the egg from Parkervcp's GitHub Repository](https://github.com/parkervcp/eggs/tree/master/bots/discord/discord.js)
-2. Unarchive the file and set the server to use NodeJS 12
+2. Unarchive the file and set the server to use NodeJS 16
 3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
 4. Start the server (Ignore the 2 strange errors that might come up)
 
@@ -71,3 +76,31 @@ location / {
   }
 }
 ```
+
+# Additional Configuration
+
+Enabling other eggs (Minecraft Bedrock):
+1. [Download the eggs from Parkervcp's GitHub Repository](https://github.com/parkervcp/eggs/tree/master/bots/discord/discord.js)
+2. Add the Pocketmine & Vanilla Bedrock eggs to your panel
+3. Get the egg ID of both of them and set it as the ID in settings.json
+
+# Updating 
+
+From Heliactyl v11 or Dashactyl v0.4 to Heliactyl v12:
+1. Store certain things such as your api keys, discord auth settings, etc in a .txt file
+2. Download database.sqlite 
+3. Delete all files off the server (or delete and remake the folder if done in ssh)
+4. Upload the latest Heliactyl v12 release and unzip it
+5. Upload database.sqlite and reconfigure settings.json
+
+Move to a newer Heliactyl v12 release:
+1. Delete everything except settings.json, database.sqlite
+2. Put the files that you didn't delete into a zip file
+3. Upload the latest Heliactyl v12 release and unzip it
+4. Remove settings.json and database.sqlite
+5. Unzip the zip with your old settings.json and database.sqlite
+
+# v11 Deprecation Notice
+
+Heliactyl v11 is now deprecated as listed in our Discord and should not be used.
+Please update to Heliactyl v12.
