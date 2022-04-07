@@ -24,9 +24,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <link href="https://fonts.cdnfonts.com/css/whitney" rel="stylesheet">
     <% if (settings.api.arcio.enabled == true) { %>
-           <% if (settings.api.arcio.show.enabled == true) { %>
-               <script async src="https://arc.io/widget.min.js#<%= settings.api.arcio.widgetid %>"></script>
-        <% } %>
+         <script async src="https://arc.io/widget.min.js#<%= settings.api.arcio.widgetid %>"></script>
     <% } %>
 </head>
 <body style="font-family: 'Whitney-Semibold', sans-serif;">
