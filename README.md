@@ -31,23 +31,21 @@ Please do keep the footer though.
 
 <hr>
 
-# Install Guide (pt. 1)
+# Install Guide
 
 Warning: You need Pterodactyl already set up on a domain for Heliactyl to work
 1. Upload the file above onto a Pterodactyl NodeJS server [Download the egg from Parkervcp's GitHub Repository](https://github.com/parkervcp/eggs/tree/master/bots/discord/discord.js)
 2. Unarchive the file and set the server to use NodeJS 16
 3. Configure settings.json (specifically panel domain/apikey and discord auth settings for it to work)
 4. Start the server (Ignore the 2 strange errors that might come up)
+5. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS IP address. (Example: dashboard.domain.com 192.168.0.1)
+6. Run `apt install nginx && apt install certbot` on the vps
+7. Run `ufw allow 80` and `ufw allow 443` on the vps
+8. Run `certbot certonly -d <Your Heliactyl Domain>` then do 1 and put your email
+9. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
+10. Paste the configuration at the bottom of this and replace with the IP of the pterodactyl server including the port and with the domain you want your dashboard to be hosted on.
+11. Run `systemctl restart nginx` and try open your domain.
 
-# Install Guide (pt. 2)
-
-1. Login to your DNS manager, point the domain you want your dashboard to be hosted on to your VPS IP address. (Example: dashboard.domain.com 192.168.0.1)
-2. Run `apt install nginx && apt install certbot` on the vps
-3. Run `ufw allow 80` and `ufw allow 443` on the vps
-4. Run `certbot certonly -d <Your Heliactyl Domain>` then do 1 and put your email
-5. Run `nano /etc/nginx/sites-enabled/heliactyl.conf`
-6. Paste the configuration at the bottom of this and replace with the IP of the pterodactyl server including the port and with the domain you want your dashboard to be hosted on.
-7. Run `systemctl restart nginx` and try open your domain.
 # Nginx Proxy Config
 ```Nginx
 server {
@@ -104,7 +102,9 @@ Move to a newer Heliactyl v12 release:
 4. Remove settings.json and database.sqlite
 5. Unzip the zip with your old settings.json and database.sqlite
 
-# v11 Deprecation Notice
+# Legacy Deprecation Notice
 
-Heliactyl v11 is now deprecated as listed in our Discord and should not be used.
+Heliactyl v6, v7, v8, v9, v10, v11 is now deprecated as listed in our Discord and should not be used.
 Please update to Heliactyl v12.
+
+
