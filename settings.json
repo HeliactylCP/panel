@@ -10,7 +10,8 @@
     "key": "Example key (You should give the key all permissions)"
   },
   "linkvertise": {
-    "userid": 00000,
+    "userid": 69035,
+    "note": "this is a example id you need to put your linkvertise id",
     "coins": 2
   },
   "database": "sqlite://database.sqlite",
